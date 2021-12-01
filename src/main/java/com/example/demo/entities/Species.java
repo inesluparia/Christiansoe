@@ -12,15 +12,19 @@ public class Species {
 
     @Id
     String latinName;
+
     String name;
+
     String description;
+
     boolean isAnimal;
+
     boolean discoverableWinter, discoverableSummer, discoverableSpring, discoverableAutum;
-    @OneToMany(mappedBy = "species")
+
     @JsonBackReference
+    @OneToMany(mappedBy = "species")
     List<Media> media;
-    //@ManyToMany(mappedBy = "species")
-    //List<PointOfInterest> pointsOfInterest;
 
-
+    @ManyToMany(mappedBy = "species")
+    List<PointOfInterest> pointsOfInterest;
 }
