@@ -12,18 +12,17 @@ public class Species {
 
     @Id
     String latinName;
-
     String name;
-
     String description;
-
     boolean isAnimal;
-
+//  @Column(columnDefinition="bit(1) default 1")
+    @Column(columnDefinition = "boolean default false")
     boolean discoverableWinter, discoverableSummer, discoverableSpring, discoverableAutum;
-
-    @JsonBackReference
     @OneToMany(mappedBy = "species")
+    @JsonBackReference
     List<Media> media;
+    //@ManyToMany(mappedBy = "species")
+    //List<PointOfInterest> pointsOfInterest;
 
     @ManyToMany(mappedBy = "species")
     List<PointOfInterest> pointsOfInterest;
