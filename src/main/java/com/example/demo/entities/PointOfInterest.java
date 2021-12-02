@@ -15,7 +15,7 @@ public class PointOfInterest {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "desciption")
+    @Column(name = "description")
     private String description;
 
     @Embedded
