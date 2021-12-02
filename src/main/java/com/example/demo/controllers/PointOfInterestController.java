@@ -1,16 +1,15 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.Location;
 import com.example.demo.entities.PointOfInterest;
 import com.example.demo.repositories.PointOfInterestRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.websocket.server.PathParam;
+import java.util.Optional;
 import java.util.List;
 
 @Controller
@@ -23,19 +22,29 @@ public class PointOfInterestController {
     }
 
     @GetMapping("/points-of-interest")
-    public ResponseEntity<List<PointOfInterest>> findAll() {
-        return ResponseEntity.ok().body(pointOfInterestRepository.findAll());
-    }
+    public ResponseEntity<List<PointOfInterest>> findWithinDistance(
+            @PathParam("range") Optional<Integer> range,
+            @PathParam("latitude") Optional<Double> latitude,
+            @PathParam("latitude") Optional<Double> longitude) {
 
-    @GetMapping("/points-of-interest")
-    public ResponseEntity<List<PointOfInterest>> findAll(
-            @PathParam("page") int page,
-            @PathParam("perPage") int perPage) {
+        List<PointOfInterest> pointsOfInterests =
+                pointOfInterestRepository.findAll();
 
-        Page<PointOfInterest> pointsOfInterestPage =
-                pointOfInterestRepository.findAll(PageRequest.of(page - 1, perPage));
+        // Check whether points of interest should be
+        // filtered by range from a location.
+        if (range.isPresent() &&
+            latitude.isPresent() &&
+            longitude.isPresent()) {
 
-        return ResponseEntity.ok().body(pointsOfInterestPage.getContent());
+            Location location = new Location(latitude.get(), longitude.get());
+
+            pointsOfInterests.removeIf(poi -> {
+                double distance = poi.getLocation().getDistanceTo(location);
+                return distance > range.get();
+            });
+        }
+
+        return ResponseEntity.ok().body(pointsOfInterests);
     }
 
     @GetMapping("/points-of-interest/{id}")
