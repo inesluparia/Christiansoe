@@ -21,30 +21,9 @@ public class SpeciesController {
     @Autowired
     SpeciesRepository speciesRepository;
 
-    @GetMapping("/dyr")
+    @GetMapping("/animal")
     public List<Species> getAllSpecies(){
         return speciesRepository.findAll();
     }
-
-    @GetMapping("/dyr-page")
-    public ResponseEntity<Map<String,Object>> getAnimalsPage(){
-    int page = 0;
-    int size = 6;
-        Pageable paging = PageRequest.of(page, size);
-        Page<Species> pageSpecies = speciesRepository.findSpeciesByIsAnimalIsTrue(paging);
-
-        List<Species> species = pageSpecies.getContent();
-
-        //if (species.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("species", species);
-        response.put("currentPage", pageSpecies.getNumber());
-        response.put("totalItems", pageSpecies.getTotalElements());
-        response.put("totalPages", pageSpecies.getTotalPages());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-
-    }
-
 
 }
