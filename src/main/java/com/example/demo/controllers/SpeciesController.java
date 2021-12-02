@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +18,15 @@ import java.util.Map;
 @CrossOrigin
 public class SpeciesController {
 
+    @Autowired
     SpeciesRepository speciesRepository;
 
     @GetMapping("/dyr")
+    public List<Species> getAllSpecies(){
+        return speciesRepository.findAll();
+    }
+
+    @GetMapping("/dyr-page")
     public ResponseEntity<Map<String,Object>> getAnimalsPage(){
     int page = 0;
     int size = 6;
@@ -30,7 +35,8 @@ public class SpeciesController {
 
         List<Species> species = pageSpecies.getContent();
 
-        if (species.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        //if (species.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
         Map<String, Object> response = new HashMap<>();
         response.put("species", species);
         response.put("currentPage", pageSpecies.getNumber());
