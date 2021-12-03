@@ -25,7 +25,7 @@ public class PointOfInterestController {
     public ResponseEntity<List<PointOfInterest>> findWithinDistance(
             @PathParam("range") Optional<Integer> range,
             @PathParam("latitude") Optional<Double> latitude,
-            @PathParam("latitude") Optional<Double> longitude) {
+            @PathParam("longitude") Optional<Double> longitude) {
 
         List<PointOfInterest> pointsOfInterests =
                 pointOfInterestRepository.findAll();
