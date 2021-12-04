@@ -14,6 +14,7 @@ public class Species {
 
     private String name;
 
+    @Column(columnDefinition="varchar(2000)")
     private String description;
 
     private boolean isAnimal;
