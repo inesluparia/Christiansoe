@@ -10,6 +10,9 @@ import java.util.List;
 public class Species {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String latinName;
 
     private String name;

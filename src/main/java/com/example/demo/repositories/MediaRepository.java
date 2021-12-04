@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface MediaRepository extends JpaRepository<Media, Long> {
 
-    List<Media> findBySpecies(String species);
+    List<Media> findBySpeciesId(long id);
+
 
     List<Media> findByIsImage(boolean isImage);
 

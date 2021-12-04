@@ -17,22 +17,33 @@ private SpeciesRepository speciesRepository;
     public List<Species> getAnimalsBySeason(String season){
         List<Species> allAnimals = speciesRepository.findSpeciesByIsAnimal(true);
 
+        return filterBySeason(season, allAnimals);
+    }
+
+    public List<Species> getPlantsBySeason(String season){
+        List<Species> allPlants = speciesRepository.findSpeciesByIsAnimal(false);
+
+        return filterBySeason(season, allPlants);
+    }
+
+    private List<Species> filterBySeason(String season, List<Species> species) {
         switch(season){
             case "winter":{
-                return allAnimals.stream().filter(Species::isDiscoverableWinter).collect(Collectors.toList());
+                return species.stream().filter(Species::isDiscoverableWinter).collect(Collectors.toList());
             }
             case "spring":{
-                return allAnimals.stream().filter(Species::isDiscoverableSpring).collect(Collectors.toList());
+                return species.stream().filter(Species::isDiscoverableSpring).collect(Collectors.toList());
             }
             case "summer":{
-                return allAnimals.stream().filter(Species::isDiscoverableSummer).collect(Collectors.toList());
+                return species.stream().filter(Species::isDiscoverableSummer).collect(Collectors.toList());
             }
             case "autumn":{
-                return allAnimals.stream().filter(Species::isDiscoverableAutumn).collect(Collectors.toList());
+                return species.stream().filter(Species::isDiscoverableAutumn).collect(Collectors.toList());
             }
             default:
                 return null;
         }
     }
+
 
 }

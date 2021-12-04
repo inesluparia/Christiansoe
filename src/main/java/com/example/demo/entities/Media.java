@@ -17,7 +17,7 @@ public class Media {
     private String url;
 
     @ManyToOne
-    @JoinColumn(name="species")
+    @JoinColumn(name="species_id")
     //@JsonManagedReference
     private Species species;
 
