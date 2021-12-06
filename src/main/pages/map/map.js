@@ -1,4 +1,5 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXNnZXJrcmFiYmUiLCJhIjoiY2t3bmwxMG0wMm1wazJ2cXZ3cGhsZGNkOCJ9.F3h5DOWVUaRYultvyMggYQ'
+
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/outdoors-v11', // style URL
@@ -6,8 +7,6 @@ const map = new mapboxgl.Map({
     zoom: 14.5, // starting zoom
     min: 16
 })
-
-
 
 
 //Christiansø Færgeterminal
@@ -20,8 +19,8 @@ async function getRoute(end) {
     // Average walking speed set to 1.1 meters per second
     const query = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`,
-        { method: 'GET' }
-    );
+        {method: 'GET'}
+    )
 
     const json = await query.json();
     const data = json.routes[0];
@@ -33,7 +32,7 @@ async function getRoute(end) {
             type: 'LineString',
             coordinates: route
         }
-    };
+    }
     // if the route already exists on the map, we'll reset it using setData
     if (map.getSource('route')) {
         map.getSource('route').setData(geojson);
@@ -58,17 +57,17 @@ async function getRoute(end) {
             }
         });
     }
-    const instructions = document.getElementById('instructions');
+    const routeInfo = document.getElementById('instructions');
 
     const rawDistance = data.distance
 
-    function trimmingDistance (rawDistance) {
+    function trimmingDistance(rawDistance) {
         if (rawDistance >= 1000) {
             let distanceKm = rawDistance / 1000
             return distanceKm.toFixed(1) + " km"
         }
         if (rawDistance <= 1000) {
-            return rawDistance.toFixed(0)+ " meter"
+            return rawDistance.toFixed(0) + " meter"
         }
     }
 
@@ -81,7 +80,7 @@ async function getRoute(end) {
     //for (const step of steps) {tripInstructions += `<li>${step.maneuver.instruction}</li>`;}
     //${tripInstructions}
 
-    instructions.innerHTML = `<p><strong>Trip duration: ${Math.floor(
+    routeInfo.innerHTML = `<p><strong>Trip duration: ${Math.floor(
         data.duration / 60
     )} min 🚶‍♂ </strong></p><ol>Trip distance: ${trimmingDistance(rawDistance)}</ol>`;
 }
@@ -89,7 +88,7 @@ async function getRoute(end) {
 map.on('load', () => {
     // make an initial directions request that
     // starts and ends at the same location
-    getRoute(start);
+    getRoute(start)
 
     // Add starting point to the map
     map.addLayer({
@@ -113,10 +112,12 @@ map.on('load', () => {
         },
         paint: {
             'circle-radius': 10,
-            'circle-color': '#3887be'
+            'circle-color': '#3887be',
+            'circle-opacity': 0
         }
-    });
-    // this is where the code from the next step will go
+    })
+
+
     map.on('click', (event) => {
         const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
         const end = {
@@ -131,7 +132,7 @@ map.on('load', () => {
                     }
                 }
             ]
-        };
+        }
         if (map.getLayer('end')) {
             map.getSource('end').setData(end);
         } else {
@@ -156,29 +157,53 @@ map.on('load', () => {
                 },
                 paint: {
                     'circle-radius': 10,
-                    'circle-color': '#f30'
+                    'circle-color': '#f30',
+                    'circle-opacity': 0
                 }
-            });
+            })
         }
         getRoute(coords);
-    });
-});
+    })
+})
 
 
+const geojson = {
+    type: 'FeatureCollection',
+    features: [
+        {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: start
+            },
+            properties: {
+                title: 'Mapbox',
+                description: 'Port'
+            }
+        }
+    ]
+}
 
+// add markers to map
+for (const feature of geojson.features) {
+    // create a HTML element for each feature
+    const el = document.createElement('div')
+    el.className = 'marker'
 
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map)
 
+    new mapboxgl.Marker(el)
+        .setLngLat(feature.geometry.coordinates)
+        .setPopup(
+            new mapboxgl.Popup({offset: 25}) // add popups
+                .setHTML(
+                    `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+                )
+        )
+        .addTo(map);
 
-
-
-
-
-
-
-
-
-
-
+}
 
 
 /*
