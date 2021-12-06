@@ -113,13 +113,16 @@ map.on('load', () => {
         paint: {
             'circle-radius': 10,
             'circle-color': '#3887be',
-            'circle-opacity': 0
+            'circle-opacity': 1
         }
     })
 
 
+
+
     map.on('click', (event) => {
-        const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
+        const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key])
+
         const end = {
             type: 'FeatureCollection',
             features: [
@@ -158,7 +161,7 @@ map.on('load', () => {
                 paint: {
                     'circle-radius': 10,
                     'circle-color': '#f30',
-                    'circle-opacity': 0
+                    'circle-opacity': 1
                 }
             })
         }
@@ -166,6 +169,19 @@ map.on('load', () => {
     })
 })
 
+let coordToSave = []
+
+
+
+
+
+//document.getElementById("button").addEventListener(saveRoute(long, lat))
+
+
+function saveRoute(e) {
+    let coordinates = e.lngLat
+    coordinates.push(coords)
+}
 
 const geojson = {
     type: 'FeatureCollection',
@@ -178,27 +194,26 @@ const geojson = {
             },
             properties: {
                 title: 'Mapbox',
-                description: 'Port'
+                description: 'Christiansø Færgeterminal'
             }
         }
     ]
 }
 
-// add markers to map
 for (const feature of geojson.features) {
     // create a HTML element for each feature
     const el = document.createElement('div')
     el.className = 'marker'
 
     // make a marker for each feature and add to the map
-    new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map)
+    var marker = new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map)
 
     new mapboxgl.Marker(el)
         .setLngLat(feature.geometry.coordinates)
         .setPopup(
             new mapboxgl.Popup({offset: 25}) // add popups
                 .setHTML(
-                    `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+                    `<h3>${feature.properties.description}</h3>`
                 )
         )
         .addTo(map);
