@@ -1,0 +1,35 @@
+ul {
+    padding-left: 0.75rem;
+}
+
+details {
+    max-width: 450px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 1px solid hsl(200, 6%, 20%);
+    margin-top: 1rem;
+
+    summary {
+        display: block;
+        cursor: pointer;
+        padding: 0.75rem;
+        font-weight: bold;
+        letter-spacing: 0.05rem;
+        text-transform: capitalize;
+        user-select: none;
+
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+            background-color: hsl(200, 6%, 15%);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    :not(summary) {
+        margin: 0.75rem;
+    }
+}
