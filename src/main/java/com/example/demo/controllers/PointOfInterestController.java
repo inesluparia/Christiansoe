@@ -5,6 +5,7 @@ import com.example.demo.entities.PointOfInterest;
 import com.example.demo.repositories.PointOfInterestRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.List;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class PointOfInterestController {
 
     private final PointOfInterestRepository pointOfInterestRepository;
