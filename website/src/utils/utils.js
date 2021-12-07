@@ -4,9 +4,9 @@ export function createElementFromString(str) {
     return divElement;
 }
 
-export function renderPageElement(pageFunction, rootElement) {
+export function renderPageElement(pageElement, rootElement) {
     rootElement.innerHTML = "";
-    pageFunction().childNodes.forEach(child => {
+    pageElement.childNodes.forEach(child => {
         if (child.nodeType === 1) {
             rootElement.appendChild(child);
         }
