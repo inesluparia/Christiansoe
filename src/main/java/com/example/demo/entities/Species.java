@@ -26,10 +26,11 @@ public class Species {
     @Column(columnDefinition = "boolean default false")
     private boolean discoverableWinter, discoverableSummer, discoverableSpring, discoverableAutumn;
 
-    @OneToMany(mappedBy = "species")
     @JsonBackReference
+    @OneToMany(mappedBy = "species")
     private List<Media> media = new ArrayList<>(); //not sure if it makes a difference instantiating the list
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "species")
     private List<PointOfInterest> pointsOfInterest;
 
