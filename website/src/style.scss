@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    font-size: 16px;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    background: inherit;
+    cursor: pointer;
+    border: none;
+}
