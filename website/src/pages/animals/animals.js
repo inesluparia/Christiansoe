@@ -1,9 +1,9 @@
 function AnimalsPage() {
-    
+
     // const animalsResponse = await fetch("http://localhost:8080/animals")
     //     .then(res => res.json());
     const animalsResponse = [];
-    
+
     const html = animalsResponse.map(animal => `
         <li>
             <a href="/species/${animal.id}" data-navigo>
