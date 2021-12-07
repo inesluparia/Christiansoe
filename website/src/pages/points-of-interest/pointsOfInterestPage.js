@@ -1,24 +1,27 @@
 import "./pointsOfInterestPage.scss";
 import { createElementFromString } from "../../utils/utils";
-import { pointsOfInterestService } from "../../services/pointsOfInterestService";
 
-function PointsOfInterestPage() {
-
-    pointsOfInterestService.findAll()
-        .then(pointsOfInterest => {
-            
-        });
+function PointsOfInterestPage(props) {
 
     const pageElement = createElementFromString(`
         <h1>Points of Interest</h1>
         <p>Lorem ipsum dolor sit amet.</p>
-        <button>Click me</button>g
+        <ul>
+            ${props?.pointsOfInterest.map(point => {
+                return `
+                    <li>
+                        <button>
+                            <header>
+                                <h2>${point.name}</h2>
+                            </header>
+                            <p>${point.description}</p>
+                        </button>
+                    </li>
+                `;
+            }).join("")}
+        </ul>
     `);
-
-    pageElement.querySelector("button")?.addEventListener("click", () => {
-        alert("You clicked the button!");
-    });
-
+    
     return pageElement;
 }
 

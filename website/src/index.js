@@ -4,6 +4,7 @@ import { renderPageElement } from "./utils/utils";
 
 import PointsOfInterestPage from "./pages/points-of-interest/pointsOfInterestPage";
 import AnimalsPage from "./pages/animals/animalsPage";
+import { pointsOfInterestService } from "./services/pointsOfInterestService";
 
 const router = new Navigo("/");
 const rootElement = document.getElementById("root");
@@ -17,8 +18,13 @@ router.on({
 
         renderPageElement(AnimalsPage({ animals }), rootElement);
     },
-    "/points-of-interest": () => {
-        renderPageElement(PointsOfInterestPage(), rootElement);
+    "/points-of-interest": async () => {
+        const pointsOfInterest = await pointsOfInterestService.findAll();
+
+        renderPageElement(
+            PointsOfInterestPage({ pointsOfInterest }),
+            rootElement
+        );
     },
 })
 .notFound(() => {
