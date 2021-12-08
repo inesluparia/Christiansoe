@@ -1,4 +1,5 @@
 package com.example.demo.controllers;
+import com.example.demo.entities.Media;
 import com.example.demo.repositories.SpeciesRepository;
 import com.example.demo.entities.Species;
 import com.example.demo.services.SpeciesService;
@@ -9,12 +10,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class SpeciesController {
 
     @Autowired
@@ -24,6 +28,15 @@ public class SpeciesController {
     private SpeciesService speciesService;
 
     //ANIMALS REST SERVICES
+
+    @GetMapping ("/animals")
+    public List<Species> getAnimals(@PathParam("season") Optional<String> season){
+        if(season.isPresent())
+            return speciesService.getAnimalsBySeason(season.get());
+        else
+            return speciesRepository.findSpeciesByIsAnimal(true);
+    }
+    /* NOT WORKING JUST YET
     @GetMapping("/animals")
     public List<Species> getAllAnimals(){
         return speciesRepository.findSpeciesByIsAnimal(true);
@@ -33,16 +46,16 @@ public class SpeciesController {
     public List<Species> getAnimalsBySeason(@RequestParam String season) {
             return speciesService.getAnimalsBySeason(season);
     }
+     */
 
 //PLANTS REST SERVICES
-    @GetMapping("/plants")
-    public List<Species> getAllPlants() {
-        return speciesRepository.findSpeciesByIsAnimal(false);
-    }
 
-    @GetMapping(value="plants", params= "season")
-    public List<Species> getPlantsBySeason(@RequestParam String season) {
-        return speciesService.getPlantsBySeason(season);
+    @GetMapping ("/plants")
+    public List<Species> getPlants(@PathParam("season") Optional<String> season) {
+        if (season.isPresent())
+            return speciesService.getPlantsBySeason(season.get());
+        else
+            return speciesRepository.findSpeciesByIsAnimal(false);
     }
 
     //ALL SPECIES

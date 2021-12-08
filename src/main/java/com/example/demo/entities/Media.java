@@ -18,7 +18,7 @@ public class Media {
 
     @ManyToOne
     @JoinColumn(name="species_id")
-    //@JsonManagedReference
+    @JsonManagedReference
     private Species species;
 
     //Constructors, getters and setters
