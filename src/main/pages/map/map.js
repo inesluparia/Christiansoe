@@ -118,8 +118,6 @@ map.on('load', () => {
     })
 
 
-
-
     map.on('click', (event) => {
         const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key])
 
@@ -170,18 +168,34 @@ map.on('load', () => {
 })
 
 let coordToSave = []
-
-
-
-
+let coordReadyForSave = []
 
 //document.getElementById("button").addEventListener(saveRoute(long, lat))
 
 
 function saveRoute(e) {
-    let coordinates = e.lngLat
-    coordinates.push(coords)
+    coordToSave.push(coordReadyForSave[0])
+
+    const el = document.createElement('div')
+    el.className = 'marker'
+    const marker1 = new mapboxgl.Marker(el)
+        .setLngLat([coordToSave[0]])
+        .addTo(map);
 }
+
+
+map.on('click', (e) => {
+        let coords = JSON.stringify(e.lngLat.toArray())
+        coordReadyForSave.shift()
+        coordReadyForSave.push(coords)
+
+        console.log(coordToSave)
+        console.log(coordReadyForSave)
+    }
+)
+
+document.getElementById('button').addEventListener("click", saveRoute)
+
 
 const geojson = {
     type: 'FeatureCollection',
@@ -200,13 +214,15 @@ const geojson = {
     ]
 }
 
+
 for (const feature of geojson.features) {
     // create a HTML element for each feature
     const el = document.createElement('div')
     el.className = 'marker'
 
     // make a marker for each feature and add to the map
-    var marker = new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map)
+    let marker = new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map)
+
 
     new mapboxgl.Marker(el)
         .setLngLat(feature.geometry.coordinates)
@@ -217,7 +233,6 @@ for (const feature of geojson.features) {
                 )
         )
         .addTo(map);
-
 }
 
 
