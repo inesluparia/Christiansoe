@@ -22,8 +22,8 @@ async function getRoute(end) {
         {method: 'GET'}
     )
 
-    const json = await query.json();
-    const data = json.routes[0];
+    const json = await query.json()
+    const data = json.routes[0]
     const route = data.geometry.coordinates;
     const geojson = {
         type: 'Feature',
@@ -35,7 +35,7 @@ async function getRoute(end) {
     }
     // if the route already exists on the map, we'll reset it using setData
     if (map.getSource('route')) {
-        map.getSource('route').setData(geojson);
+        map.getSource('route').setData(geojson)
     }
     // otherwise, we'll make a new request
     else {
@@ -55,7 +55,7 @@ async function getRoute(end) {
                 'line-width': 5,
                 'line-opacity': 0.75
             }
-        });
+        })
     }
     const routeInfo = document.getElementById('instructions');
 
@@ -163,7 +163,7 @@ map.on('load', () => {
                 }
             })
         }
-        getRoute(coords);
+        getRoute(coords)
     })
 })
 
@@ -178,14 +178,16 @@ function saveRoute(e) {
 
     const el = document.createElement('div')
     el.className = 'marker'
+
     const marker1 = new mapboxgl.Marker(el)
-        .setLngLat([coordToSave[0]])
+        .setLngLat(coordToSave[0])
         .addTo(map);
 }
 
 
 map.on('click', (e) => {
         let coords = JSON.stringify(e.lngLat.toArray())
+
         coordReadyForSave.shift()
         coordReadyForSave.push(coords)
 
