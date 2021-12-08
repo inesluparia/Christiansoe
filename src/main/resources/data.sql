@@ -6,11 +6,11 @@ INSERT INTO species (latin_name, name, description, is_animal, discoverable_wint
 ;
 
 INSERT INTO media (url, is_image, species_id) VALUES
-('http://localhost:8080/Sapito.jpg', true, 1),
-('http://localhost:8080/Apis mellifera.jpg', true, 2),
-('http://localhost:8080/Cyanistes caeruleus.mp3', false, 3),
-('http://localhost:8080/Cyanistes caeruleus.jpg', true, 3),
-('http://localhost:8080/Cichorium intybus.jpg', true, 4)
+('/images/Sapito.jpg', true, 1),
+('/images/Honningbi.jpg', true, 2),
+('/images/Cyanistes caeruleus.mp3', false, 3),
+('/images/Cyanistes caeruleus.jpg', true, 3),
+('/images/Cichorium intybus.jpg', true, 4)
 ;
 
 INSERT INTO points_of_interest (description, latitude, longitude, name) VALUES
