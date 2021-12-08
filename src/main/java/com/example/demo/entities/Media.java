@@ -1,12 +1,13 @@
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "media")
 public class Media {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,26 +17,22 @@ public class Media {
 
     private String url;
 
-    @ManyToOne
-    @JoinColumn(name="species_id")
-    @JsonManagedReference
-    private Species species;
+    protected Media() { }
 
-    //Constructors, getters and setters
-    public Media(boolean isImage, String url, Species species) {
+    public Media(boolean isImage, String url) {
         this.isImage = isImage;
         this.url = url;
-        this.species = species;
-    }
-
-    public Media() {
-
     }
 
     public long getId() {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @JsonProperty(value = "isImage")
     public boolean isImage() {
         return isImage;
     }
@@ -50,13 +47,5 @@ public class Media {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public Species getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(Species species) {
-        this.species = species;
     }
 }

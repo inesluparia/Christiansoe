@@ -1,41 +1,69 @@
 package com.example.demo.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import javax.validation.constraints.Size;
 import java.util.List;
 
-
 @Entity
+@Table(name = "species")
 public class Species {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String latinName;
-
     private String name;
 
-    @Column(columnDefinition="varchar(2000)")
+    private String latinName;
+
+    @Size(max = 2000)
     private String description;
 
     private boolean isAnimal;
 
-//  @Column(columnDefinition="bit(1) default 1")
-    @Column(columnDefinition = "boolean default false")
-    private boolean discoverableWinter, discoverableSummer, discoverableSpring, discoverableAutumn;
+    private boolean discoverableWinter,
+            discoverableSummer,
+            discoverableSpring,
+            discoverableAutumn = false;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "species")
-    private List<Media> media = new ArrayList<>(); //not sure if it makes a difference instantiating the list
+    @ManyToMany
+    @JsonManagedReference
+    private List<Media> media;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "species")
     private List<PointOfInterest> pointsOfInterest;
 
-    //Constructors, getters and setters
-    public Species(){}
+    protected Species() { }
+
+    public Species(String name, String latinName, String description,
+                   boolean isAnimal, boolean discoverableWinter,
+                   boolean discoverableSummer, boolean discoverableSpring,
+                   boolean discoverableAutumn, List<Media> media,
+                   List<PointOfInterest> pointsOfInterest) {
+
+        this.name = name;
+        this.latinName = latinName;
+        this.description = description;
+        this.isAnimal = isAnimal;
+        this.discoverableWinter = discoverableWinter;
+        this.discoverableSummer = discoverableSummer;
+        this.discoverableSpring = discoverableSpring;
+        this.discoverableAutumn = discoverableAutumn;
+        this.media = media;
+        this.pointsOfInterest = pointsOfInterest;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getLatinName() {
         return latinName;
@@ -61,6 +89,7 @@ public class Species {
         this.description = description;
     }
 
+    @JsonProperty(value = "isAnimal")
     public boolean isAnimal() {
         return isAnimal;
     }
@@ -97,8 +126,8 @@ public class Species {
         return discoverableAutumn;
     }
 
-    public void setDiscoverableAutumn(boolean discoverableAutum) {
-        this.discoverableAutumn = discoverableAutum;
+    public void setDiscoverableAutumn(boolean discoverableAutumn) {
+        this.discoverableAutumn = discoverableAutumn;
     }
 
     public List<Media> getMedia() {
