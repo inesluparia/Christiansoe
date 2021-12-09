@@ -1,10 +1,10 @@
 import "./style.scss";
 import Navigo from "navigo";
 import { renderPageElement } from "./utils/utils";
-
 import PointsOfInterestPage from "./pages/points-of-interest/pointsOfInterestPage";
 import AnimalsPage from "./pages/animals/animalsPage";
 import { pointsOfInterestService } from "./services/pointsOfInterestService";
+import { speciesService } from "./services/speciesService";
 
 const router = new Navigo("/");
 const rootElement = document.getElementById("root");
@@ -12,11 +12,9 @@ const rootElement = document.getElementById("root");
 router.on({
     "/": () => {},
     "/animals": async () => {
-        // TODO: Use a service instead.
-        const animals = await fetch("http://localhost:8080/animals")
-            .then((res) => res.json());
-
-        renderPageElement(AnimalsPage({ animals }), rootElement);
+        const animals = await speciesService.findAllAnimals()
+        rootElement.innerHTML = "";
+        rootElement.appendChild(AnimalsPage({ animals }));
     },
     "/points-of-interest": async () => {
         const pointsOfInterest = await pointsOfInterestService.findAll();

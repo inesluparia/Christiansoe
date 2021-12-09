@@ -5,11 +5,12 @@ INSERT INTO species (latin_name, name, description, is_animal, discoverable_wint
     ('Cichorium intybus', 'Cikorie', 'Cikorie er en 30-100 cm. høj urt med iøjnefaldende lyseblå blomster. Stænglen er opret, kantet og hul, foroven grenet. Stængelbladene er lancetformede, fåtandede, med hjerteformet stængelomfattende basis, på oversiden glatte. Nedre blade omvendt lancetformede, fjersnitdelte eller tandede, på undersiden stivhårede på strengene. Kurvene er 3-5 cm. brede, med tungeformede, kønne lyseblå blomster. De ydre kurvblade er kirtelhårede. Frugten er 2-3 mm, kantet, uden fnok, men med enkelte små skæl. Blomsterkurvene åbnes fra tidlig morgen og følger solens gang. Den enkelte kurv visner hurtigt.', 0, 0, 0, 1, 0);
 
 INSERT INTO media (url, is_image) VALUES
-    ('/sapito.jpg', true),
-    ('/apis_mellifera.jpg', true),
-    ('/cyanistes_caeruleus.mp3', false),
-    ('/cyanistes_caeruleus.jpg', true),
-    ('/cichorium_intybus.jpg', true);
+    ('/images/Sapito.jpg', true),
+    ('/images/Apis mellifera.jpg', true),
+    ('/images/Cyanistes caeruleus.mp3', false),
+    ('/images/Cyanistes caeruleus.jpg', true),
+    ('/images/Cichorium intybus.jpg', true),
+    ('/images/Kongens bastion.jpg', true);
 
 INSERT INTO species_media (species_id, media_id) VALUES
      (1, 1), (2, 2), (3, 3), (3, 4), (4, 5);
@@ -18,6 +19,9 @@ INSERT INTO points_of_interest (description, latitude, longitude, name) VALUES
     ('description will come.', 55.3192258, 15.1890070,'Møllebakken på Christiansø'),
     ('description will come.', 55.3179662, 15.1883479, 'Kongens Bastion'),
     ('description will come.', 55.3232303, 15.1910652, 'Verdens ende');
+
+INSERT INTO points_of_interest_media (point_of_interest_id, media_id) VALUES
+    (2, 6);
 
 INSERT INTO points_of_interest_species (points_of_interest_id, species_id) VALUES
     (1, 1), (1, 2), (2, 1), (2, 3), (2, 4), (3, 3);
