@@ -27,7 +27,6 @@ public class SpeciesController {
     @Autowired
     private SpeciesService speciesService;
 
-    //ANIMALS REST SERVICES
 
     @GetMapping ("/animals")
     public List<Species> getAnimals(@PathParam("season") Optional<String> season){
@@ -36,19 +35,6 @@ public class SpeciesController {
         else
             return speciesRepository.findSpeciesByIsAnimal(true);
     }
-    /* NOT WORKING JUST YET
-    @GetMapping("/animals")
-    public List<Species> getAllAnimals(){
-        return speciesRepository.findSpeciesByIsAnimal(true);
-    }
-
-    @GetMapping(value="/animals", params= "season")
-    public List<Species> getAnimalsBySeason(@RequestParam String season) {
-            return speciesService.getAnimalsBySeason(season);
-    }
-     */
-
-//PLANTS REST SERVICES
 
     @GetMapping ("/plants")
     public List<Species> getPlants(@PathParam("season") Optional<String> season) {
@@ -59,12 +45,6 @@ public class SpeciesController {
     }
 
     //ALL SPECIES
-    @GetMapping("/species/{id}")
-    public Species getSpeciesById(@PathVariable long id) throws Exception {
-        return speciesRepository.findById(id);
-               // .orElseThrow(() -> new Exception("Species not found by id:"+ id + "."));
-    }
-
     @GetMapping("/species")//http://localhost:8080/animals?page=0&size=4
     public ResponseEntity<Map<String, Object>> getAnimalsPage(
             @RequestParam(defaultValue = "0") int page,
@@ -82,10 +62,16 @@ public class SpeciesController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/species/{id}")
+    public Species getSpeciesById(@PathVariable long id) throws Exception {
+        return speciesRepository.findById(id);
+               // .orElseThrow(() -> new Exception("Species not found by id:"+ id + "."));
+    }
+
+
     //This 2 should not be used yet as any species can be searched by the "/species" path
     //would it be nice to have them???? Right now they are returning any species no matter if
     //they are animal or plant...
-
     @GetMapping("/animals/{id}")
     public Species getAnimalById(@PathVariable long id){
         return speciesRepository.findById(id);
