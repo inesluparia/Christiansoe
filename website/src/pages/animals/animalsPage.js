@@ -53,7 +53,7 @@ function AnimalsPage(props) {
         const soundMedia = selectedAnimal.media.filter((media) => !media.isImage)
         if (soundMedia.length > 0) {
             pageElement.querySelector("audio").style.display = "block"
-            pageElement.querySelector("sound").src = soundMedia[0].url
+            pageElement.querySelector("audio").src = soundMedia[0].url
         }
     })
 
