@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -26,6 +27,10 @@ public class PointOfInterest {
     @ManyToMany
     @JsonManagedReference
     private List<Species> species;
+
+    @ManyToMany
+    @JsonManagedReference
+    private List<Media> media;
 
     protected PointOfInterest() { }
 
