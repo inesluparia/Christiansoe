@@ -19,8 +19,12 @@ router.on({
     "/points-of-interest": async () => {
         const pointsOfInterest = await pointsOfInterestService.findAll();
 
+        const onFilterChange = (filter) => {
+            alert(filter);
+        };
+
         renderPageElement(
-            PointsOfInterestPage({ pointsOfInterest }),
+            PointsOfInterestPage({ pointsOfInterest, onFilterChange }),
             rootElement
         );
     },
