@@ -19,5 +19,8 @@ INSERT INTO points_of_interest (description, latitude, longitude, name) VALUES
     ('description will come.', 55.3179662, 15.1883479, 'Kongens Bastion'),
     ('description will come.', 55.3232303, 15.1910652, 'Verdens ende');
 
+INSERT INTO points_of_interest_media (point_of_interest_id, media_id) VALUES
+    (2, 6);
+
 INSERT INTO points_of_interest_species (points_of_interest_id, species_id) VALUES
     (1, 1), (1, 2), (2, 1), (2, 3), (2, 4), (3, 3);
