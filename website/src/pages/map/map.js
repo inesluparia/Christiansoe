@@ -3,22 +3,33 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYXNnZXJrcmFiYmUiLCJhIjoiY2t3bmwxMG0wMm1wazJ2c
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/outdoors-v11', // style URL
-    center: [15.18600, 55.32073], // starting position [lng, lat]
-    zoom: 14.5, // starting zoom
+    center: [15.188356982912637, 55.320417209601885], // starting position [lng, lat]
+    zoom: 15.5, // starting zoom
     minZoom: 14
 })
+map.addControl(new mapboxgl.NavigationControl());
 
 
 //Christiansø Færgeterminal
-const start = [15.18600, 55.32073]
+const start = [15.186, 55.32073]
+
+//API URL
+// https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${waypointList[0]};${end[0]},${end[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`
 
 async function getRoute(end) {
     // make a directions request using cycling profile
     // an arbitrary start will always be the same
     // only the end or destination will change
     // Average walking speed set to 1.1 meters per second
+    let firstPartUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};`
+    let secondPartUrl = `${end[0]},${end[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`
+
+    waypointList.forEach(waypoint => {
+        firstPartUrl += waypoint + ";"
+    })
+
     const query = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`,
+        firstPartUrl + secondPartUrl,
         {method: 'GET'}
     )
 
@@ -57,32 +68,13 @@ async function getRoute(end) {
             }
         })
     }
-    const routeInfo = document.getElementById('instructions');
+    const routeInfo = document.getElementById('estimates');
 
     const rawDistance = data.distance
 
-    function trimmingDistance(rawDistance) {
-        if (rawDistance >= 1000) {
-            let distanceKm = rawDistance / 1000
-            return distanceKm.toFixed(1) + " km"
-        }
-        if (rawDistance <= 1000) {
-            return rawDistance.toFixed(0) + " meter"
-        }
-    }
-
-    //TODO remove when everything is implemented
-    console.log(data)
-
-    // KODE FOR DIRECTION INSTRUCTIONS
-    const steps = data.legs[0].steps;
-    let tripInstructions = '';
-    for (const step of steps) {tripInstructions += `<li>${step.maneuver.instruction}</li>`;}
-
-
-    routeInfo.innerHTML = `<p><strong>Trip duration: ${Math.floor(
+    routeInfo.innerHTML = `<p><strong>Trip duration:</strong> ${Math.floor(
         data.duration / 60
-    )} min 🚶‍♂ </strong></p><ol>Trip distance: ${trimmingDistance(rawDistance)}</ol>`;
+    )} min 🚶‍♂ </p><p><strong>Trip distance:</strong> ${trimmingDistance(rawDistance)}</p>`;
 }
 
 map.on('load', () => {
@@ -113,7 +105,7 @@ map.on('load', () => {
         paint: {
             'circle-radius': 10,
             'circle-color': '#3887be',
-            'circle-opacity': 1
+            'circle-opacity': 0
         }
     })
 
@@ -167,31 +159,28 @@ map.on('load', () => {
     })
 })
 
-let coordToSave = []
+let waypointList = []
 let coordReadyForSave = []
 
-//document.getElementById("button").addEventListener(saveRoute(long, lat))
 
-
-function saveRoute(e) {
-    coordToSave.push(coordReadyForSave[0])
+function saveRoute() {
+    waypointList.push(coordReadyForSave[0])
+    console.log(coordReadyForSave[0])
 
     const el = document.createElement('div')
-    el.className = 'marker'
+    el.className = 'waypoint-marker'
+    let waypointMarker = new mapboxgl.Marker(el).setLngLat(coordReadyForSave[0]).addTo(map)
 
-    const marker1 = new mapboxgl.Marker(el)
-        .setLngLat(coordToSave[0])
-        .addTo(map);
 }
 
-
 map.on('click', (e) => {
-        let coords = JSON.stringify(e.lngLat.toArray())
+        const coords = Object.keys(e.lngLat).map((key) => e.lngLat[key])
+
 
         coordReadyForSave.shift()
         coordReadyForSave.push(coords)
 
-        console.log(coordToSave)
+        console.log(waypointList)
         console.log(coordReadyForSave)
     }
 )
@@ -225,7 +214,6 @@ for (const feature of geojson.features) {
     // make a marker for each feature and add to the map
     let marker = new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map)
 
-
     new mapboxgl.Marker(el)
         .setLngLat(feature.geometry.coordinates)
         .setPopup(
@@ -234,71 +222,15 @@ for (const feature of geojson.features) {
                     `<h3>${feature.properties.description}</h3>`
                 )
         )
-        .addTo(map);
+        .addTo(map)
 }
 
-
-/*
-let terminallong = 55.3207393
-let terminalLat = 15.1860027
-
-let map = L.map('map').setView([55.3207393, 15.1860027], 16)
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    minZoom: 12,
-    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-}).addTo(map)
-
-
-map.locate({watch: true}) // "watch: true" This will return map so you can do chaining
-    .on('locationfound', function(e){
-        let marker = L.marker([e.latitude, e.longitude]).bindPopup('Her er du!');
-        let circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
-            weight: 1,
-            color: 'blue',
-            fillColor: '#cacaca',
-            fillOpacity: 0.2
-        })
-        map.addLayer(marker);
-        map.addLayer(circle);
-    })
-    .on('locationerror', function(e){
-        console.log(e)
-        alert("Adgang til placering nægtet.")
-    })
-
-function calcDistance(startLong, startLat, endLong, endLat) {
-    const R = 6371e3 // metres
-    const φ1 = endLat * Math.PI/180 // φ, λ in radians
-    const φ2 = startLat * Math.PI/180
-    const Δφ = (startLat-endLat) * Math.PI/180
-    const Δλ = (startLong-endLong) * Math.PI/180
-
-    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-        Math.cos(φ1) * Math.cos(φ2) *
-        Math.sin(Δλ/2) * Math.sin(Δλ/2)
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
-
-    return R * c //meters
+function trimmingDistance(rawDistance) {
+    if (rawDistance >= 1000) {
+        let distanceKm = rawDistance / 1000
+        return distanceKm.toFixed(1) + " km"
+    }
+    if (rawDistance <= 1000) {
+        return rawDistance.toFixed(0) + " meter"
+    }
 }
-
-let startDestination = L.marker([55.32036, 15.191555]).addTo(map)
-let otherStartDestination = L.marker([55.322609, 15.189178]).addTo(map)
-let boatTerminal = L.marker([55.32072, 15.18604]).addTo(map)
-boatTerminal.bindPopup("<b>Christiansø Færgeterminal</b>")
-startDestination.bindPopup("<b>Distance til terminalen:</b> " + calcDistance(55.32036, 15.191555, terminallong, terminalLat).toFixed(0) + " meters")
-otherStartDestination.bindPopup("<b>Distance til terminalen:</b> " + calcDistance(55.322609, 15.189178, terminallong, terminalLat).toFixed(0) + " meters")
-
-
-L.control.scale({imperial: true, metric: true}).addTo(map)
-
-let popup = L.popup()
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(map)
-}
-map.on('click', onMapClick)
-*/
