@@ -5,7 +5,7 @@ export default AnimalsPage;
 function AnimalsPage(props) {
 
     const listStr = props.animals.map(animal => `
-        <li data-test=${animal.name}>
+        <li data-animal-id=${animal.id}>
                 ${animal.name}, ${animal.latinName}
         </li>
        `).join("")
@@ -15,9 +15,9 @@ function AnimalsPage(props) {
             <h2>${props.animals[2].name}</h2>
             <h4>${props.animals[2].latinName}</h4>
             <p>${props.animals[2].description}</p>
-            <img src="http://localhost:3000/images/Cyanistes caeruleus.jpg"> 
+            <img src="/images/Cyanistes caeruleus.jpg"> 
             <audio controls>
-                <source src="http://localhost:3000/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
+                <source src="/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
             </audio>
         </aside>
 `;
@@ -31,14 +31,16 @@ function AnimalsPage(props) {
     listElement.addEventListener("click", async(event) => {
         event.preventDefault()
         //event.target.style.color = "red"
-        console.log(event.target.dataset.test)
-        //  const id = Number(event.target.dataset.animalId)
+        //console.log(event.target.dataset.test)
+        const id = Number(event.target.dataset.animalId)
         //******* notice hardcoded id
-        const selectedAnimal = await speciesService.findById(2)
+        const selectedAnimal = await speciesService.findById(id)
         console.log("This is evidence that the fetch is working, animal id2 name: " + selectedAnimal.name)
         pageElement.querySelector("h2").innerHTML = selectedAnimal.name
         pageElement.querySelector("h4").innerHTML = selectedAnimal.latinName
         pageElement.querySelector("p").innerHTML = selectedAnimal.description
+    //TODO find out how to get the loop the media objects to find if they are sounds or images and render dem ...
+        //pageElement.querySelector("img").src = selectedAnimal.media.
     })
 
     const pageElement = document.createElement("div")
@@ -47,8 +49,6 @@ function AnimalsPage(props) {
     return pageElement
 
 
-    //TODO find out how to get the media objects, first fetche davids changes in the backend...
-    //Looks like I can only get attributes but not objects!!!! and the ID doesnt come in the json :(
 
 }
 
