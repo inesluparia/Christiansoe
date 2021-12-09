@@ -5,6 +5,16 @@ export default AnimalsPage;
 
 function AnimalsPage(props) {
 
+    const dropdownStr = `<div class="dropdown">
+  <button class="dropbtn">Filter by season</button>
+  <span class="dropdown-content">
+    <li data-season="spring">Forår</li>
+    <li data-season="summer">Sommer</li>
+    <li data-season="autumn">Efterår</li>
+    <li data-season="winter">Vinter</li>
+  </span>
+</div>`
+
     const listStr = props.animals.map(animal => `
         <li data-animal-id=${animal.id}>
                 ${animal.name}, ${animal.latinName}
@@ -22,18 +32,20 @@ function AnimalsPage(props) {
             </audio>
         </aside>
 `;
-    const listElement = createElementFromString(listStr)
+    let listElement = createElementFromString(listStr)
     listElement.id = "list-container"
 
     const detailsElement = createElementFromString(detailsStr)
     detailsElement.id = "details-container"
+
+    const dropdownElement = createElementFromString(dropdownStr)
+    dropdownElement.id = "details-container"
 
 
     listElement.addEventListener("click", async(event) => {
         event.preventDefault()
         const id = Number(event.target.dataset.animalId)
         const selectedAnimal = await speciesService.findById(id)
-        console.log("This is evidence that the fetch is working, animal id2 name: " + selectedAnimal.name)
 
         //Update text elements
         pageElement.querySelector("h2").innerHTML = selectedAnimal.name
@@ -57,7 +69,23 @@ function AnimalsPage(props) {
         }
     })
 
+    dropdownElement.querySelector("span").addEventListener("click", async (event) =>{
+        event.preventDefault()
+        const seasonSelected = event.target.dataset.season
+        //console.log(seasonSelected)
+        const animalsBySeason = await speciesService.findByAnimalsBySeason(seasonSelected)
+        listElement.innerHTML = animalsBySeason.map(animal => `
+        <li data-animal-id=${animal.id}>
+                ${animal.name}, ${animal.latinName}
+        </li>
+       `).join("")
+
+//TODO make it se all animals again by adding a fifth option se all season
+
+    } )
+
     const pageElement = document.createElement("div")
+    pageElement.appendChild(dropdownElement)
     pageElement.appendChild(listElement)
     pageElement.appendChild(detailsElement)
     return pageElement
