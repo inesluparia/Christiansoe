@@ -1,3 +1,4 @@
+import "./animalsPage.scss";
 import { createElementFromString } from "../../utils/utils";
 import {speciesService} from "../../services/speciesService";
 export default AnimalsPage;
