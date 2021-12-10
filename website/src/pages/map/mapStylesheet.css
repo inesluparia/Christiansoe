@@ -56,3 +56,13 @@ body {
     background-color: #fff;
     overflow-y: scroll;
     font-family: sans-serif;}
+
+#clear-button {
+    position: absolute;
+    left: 22px;
+    width: 10%;
+    top: 200px;
+    padding: 20px;
+    background-color: #fff;
+    overflow-y: scroll;
+    font-family: sans-serif;}

@@ -14,25 +14,25 @@ map.addControl(new mapboxgl.GeolocateControl({
     }, // When active the map will receive updates to the device's location as it changes.
     trackUserLocation: true
 }))
-const geolocate = new mapboxgl.GeolocateControl();
-map.addControl(geolocate);
+const geoLocate = new mapboxgl.GeolocateControl()
+
 
 //Christiansø Færgeterminal
 const start = [15.186, 55.32073]
 //API URL
-// https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${waypointList[0]};${end[0]},${end[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`
+//https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${waypointList[0]};${end[0]},${end[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`
 
 async function getFerryDistance() {
 
-    geolocate.on('geolocate', function (e) {
+    geoLocate.on('geolocate', function (e) {
         let lon = e.coords.longitude
         let lat = e.coords.latitude
-        let position = [lon, lat]
-        console.log(position)
+        let userLocation = [lon, lat]
+        return userLocation
     })
 
     const query = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/walking/${position};${userLocation[0]},${userLocation[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`,
+        `https://api.mapbox.com/directions/v5/mapbox/walking/${userLocation};${userLocation[0]},${userLocation[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`,
         {method: 'GET'})
 
     const json = await query.json()
@@ -158,8 +158,10 @@ function saveRoute() {
     const el = document.createElement('div')
     el.className = 'waypoint-marker'
     let waypointMarker = new mapboxgl.Marker(el).setLngLat(coordReadyForSave[0]).addTo(map)
-
 }
+
+document.getElementById('button').addEventListener("click", saveRoute)
+document.getElementById('clear-button').addEventListener("click", clearWaypoints)
 
 //When user clicks on the map, the corresponding coordinates will be saved in a const
 //Then an array will be wiped clean for old coordinates and store the new relevant one
@@ -168,7 +170,6 @@ map.on('click', (e) => {
     coordReadyForSave.shift()
     coordReadyForSave.push(coords)
 })
-document.getElementById('button').addEventListener("click", saveRoute)
 
 //GeoJSON object for a special permanent marker with description for a popup box
 const geojson = {
