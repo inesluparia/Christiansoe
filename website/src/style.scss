@@ -1,15 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 
 :root {
     font-size: 16px;
-    font-family: 'Inter', Arial, Helvetica, sans-serif;
 
-    // --color-surface: hsl(36, 100%, 98%);
-    --color-surface: hsl(244, 30%, 95%);
-    --color-accent: hsl(336, 100%, 63%);
-    --color-accent-secondary: hsl(214, 90%, 80%);
-    --color-accent-tertiary: hsl(44, 81%, 58%);
-    --color-accent-quaternary: hsl(244, 51%, 83%);
+    --font-family-captions: 'Poppins', Arial, Helvetica, sans-serif;
+    --font-family-body: 'Inter', Arial, Helvetica, sans-serif;
+    
+    --color-surface: hsl(0, 0%, 100%);
+    --color-surface-secondary: hsl(215, 65%, 90%);
+
+    --color-accent: hsl(50, 100%, 45%);
+
+    --color-border: hsl(0, 0%, 92.5%);
+
     --color-captions: hsl(0, 0%, 0%);
     --color-text: hsl(0, 0%, 33%);
 }
@@ -19,21 +23,23 @@
 }
 
 :focus-visible {
-    outline: solid 2px red; 
+    outline: solid 2px var(--color-accent);
     outline-offset: 5px;
     transition: outline-offset 0.2s !important;
 }
 
 body {
     margin: 0;
+    font-family: var(--font-family-body);
     color: var(--color-text);
     background-color: var(--color-surface);
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-    margin: 0 0 1rem 0;
     color: var(--color-captions);
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+    font-family: var(--font-family-captions);
 }
 
 p {
@@ -45,10 +51,101 @@ img {
     max-width: 100%;
 }
 
+hr {
+    border: none;
+    border-top: 2px solid var(--color-border);
+}
+
 button {
     background: inherit;
     cursor: pointer;
     border: none;
     font: inherit;
     padding: 0;
+
+    &.floating-action {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        z-index: 1;
+        height: 3rem;
+        width: 3rem;
+        border-radius: 50%;
+        background-color: var(--color-accent-tertiary);
+    }
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+label {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--color-captions);
+}
+
+.loading-spinner {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+    &::after {
+        content: '';
+        display: block;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        border: 0.4rem solid var(--color-accent);
+        border-top-color: transparent;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        animation: spin 1s linear infinite;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.dropdown {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+
+    select {
+        appearance: none;
+        background-color: inherit;
+        border: none;
+        border-radius: 0;
+        cursor: pointer;
+        color: var(--color-accent);
+        font-size: 1rem;
+        font-weight: bold;
+        font-family: var(--font-family-captions);
+        padding: 0.5rem 2.5rem 0.5rem 1rem;
+        margin-left: 0.75rem;
+        
+        option {
+            font-size: 1rem;
+            font-weight: normal;
+            color: var(--color-text);
+        }
+    }
+
+    svg {
+        position: absolute;
+        pointer-events: none;
+        right: 0.5rem;
+        color: hsl(0, 0%, 48%);
+    }
 }
