@@ -30,7 +30,7 @@ function AnimalsPage(props) {
             <h2>${animals[2].name}</h2>
             <h4>${animals[2].latinName}</h4>
             <p>${animals[2].description}</p>
-            <img src="/images/Cyanistes caeruleus.jpg"> 
+            <img src="${animals[2].media.find(m => m.isImage).url}"> 
             <audio controls>
               <source src="/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
             </audio>
@@ -60,7 +60,6 @@ function AnimalsPage(props) {
         pageElement.querySelector("img").src = ""
         const imageMedia = selectedAnimal.media.filter((media) => media.isImage)
         if (imageMedia.length > 0) {
-            //MAKE A FOR EACH IF LATER THERE WILL BE MORE THAN ONE PICTURE
             pageElement.querySelector("img").src = imageMedia[0].url
         }
 
@@ -76,8 +75,6 @@ function AnimalsPage(props) {
     dropdownElement.querySelector("span").addEventListener("click", async (event) => {
         event.preventDefault()
         const seasonSelected = event.target.dataset.season
-        //animals = await speciesService.findByAnimalsBySeason(seasonSelected)
-        //console.log(seasonSelected)
         let animalsBySeason;
         if (seasonSelected === ""){
             animalsBySeason = animals

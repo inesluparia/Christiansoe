@@ -57,7 +57,6 @@ function PlantsPage(props) {
         //Update Image
         pageElement.querySelector("img").src = ""
         if (selectedPlant.media.length > 0) {
-            //MAKE A FOR EACH IF LATER THERE WILL BE MORE THAN ONE PICTURE
             pageElement.querySelector("img").src = selectedPlant.media[0].url
         }
     })
@@ -65,8 +64,6 @@ function PlantsPage(props) {
     dropdownElement.querySelector("span").addEventListener("click", async (event) => {
         event.preventDefault()
         const seasonSelected = event.target.dataset.season
-        //plants = await speciesService.findByAnimalsBySeason(seasonSelected)
-        //console.log(seasonSelected)
         let plantsBySeason;
         if (seasonSelected === ""){
             plantsBySeason = plants
@@ -77,8 +74,6 @@ function PlantsPage(props) {
                  ${plant.name}, ${plant.latinName}
          </li>
         `).join("")
-
-
     })
 
     const pageElement = document.createElement("div")
