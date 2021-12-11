@@ -14,39 +14,42 @@ map.addControl(new mapboxgl.GeolocateControl({
     }, // When active the map will receive updates to the device's location as it changes.
     trackUserLocation: true
 }))
-const geoLocate = new mapboxgl.GeolocateControl()
-
 
 //Christiansø Færgeterminal
 const start = [15.186, 55.32073]
+//Users location via browser updated every 10 second
+navigator.geolocation.getCurrentPosition(getFerryDistance)
+/*
+let intervalId = window.setInterval(function(){
+
+    /// call your function here
+}, 10000);
+*/
+
 //API URL
 //https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${waypointList[0]};${end[0]},${end[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`
 
-async function getFerryDistance() {
 
-    geoLocate.on('geolocate', function (e) {
-        let lon = e.coords.longitude
-        let lat = e.coords.latitude
-        let userLocation = [lon, lat]
-        return userLocation
-    })
+//TODO Spørg hvordan det er async løser problemet
+async function getFerryDistance(userLocation) {
+    let userLongitude = userLocation.coords.longitude
+    let userLatitude = userLocation.coords.latitude
 
-    const query = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/walking/${userLocation};${userLocation[0]},${userLocation[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`,
-        {method: 'GET'})
+    const query = await fetch(`https://api.mapbox.com/directions/v5/mapbox/walking/${start};${userLongitude},${userLatitude}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`, {method: 'GET'})
 
     const json = await query.json()
     const data = json.routes[0]
 
     const rawDistance = data.distance
 
-    let tripDuration = Math.floor(data.duration / 60)
+    let tripDuration = Math.floor(data.duration / 60) + " min. 🚶‍♂"
     let tripDistance = trimmingDistance(rawDistance)
 
-    console.log(tripDistance)
     console.log(tripDuration)
+    console.log(tripDistance)
 
-    return tripDuration + tripDistance
+    const ferryEta = document.getElementById("ferry-eta")
+    ferryEta.innerHTML = "<strong>Christansø Færgeterminal </strong>" +tripDuration + tripDistance
 }
 
 async function getRoute(end) {
@@ -65,7 +68,7 @@ async function getRoute(end) {
 
     const json = await query.json()
     const data = json.routes[0]
-    const route = data.geometry.coordinates;
+    const route = data.geometry.coordinates
     const geojson = {
         type: 'Feature', properties: {}, geometry: {
             type: 'LineString', coordinates: route
@@ -87,11 +90,11 @@ async function getRoute(end) {
             }
         })
     }
-    const routeInfo = document.getElementById('estimates');
+    const routeInfo = document.getElementById('estimates')
 
     const rawDistance = data.distance
 
-    routeInfo.innerHTML = `<p><strong>Trip duration:</strong> ${Math.floor(data.duration / 60)} min 🚶‍♂ </p><p><strong>Trip distance:</strong> ${trimmingDistance(rawDistance)}</p>`;
+    routeInfo.innerHTML = `<p><strong>Trip duration:</strong> ${Math.floor(data.duration / 60)} min 🚶‍♂ </p><p><strong>Trip distance:</strong> ${trimmingDistance(rawDistance)}</p>`
 }
 
 map.on('load', () => {
@@ -126,7 +129,7 @@ map.on('load', () => {
             }]
         }
         if (map.getLayer('end')) {
-            map.getSource('end').setData(end);
+            map.getSource('end').setData(end)
         } else {
             map.addLayer({
                 id: 'end', type: 'circle', source: {
@@ -161,7 +164,7 @@ function saveRoute() {
 }
 
 document.getElementById('button').addEventListener("click", saveRoute)
-document.getElementById('clear-button').addEventListener("click", clearWaypoints)
+//document.getElementById('clear-button').addEventListener("click", clearWaypoints)
 
 //When user clicks on the map, the corresponding coordinates will be saved in a const
 //Then an array will be wiped clean for old coordinates and store the new relevant one
