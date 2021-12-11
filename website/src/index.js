@@ -13,12 +13,12 @@ router.on({
     "/": () => {},
     "/animals": async () => {
         const animals = await speciesService.findAllAnimals()
-        rootElement.innerHTML = "";
-        rootElement.appendChild(AnimalsPage({ animals }));
+        rootElement.innerHTML = ""
+        rootElement.appendChild(AnimalsPage({ animals }))
     },
     "/plants": async () => {
       const plants = await speciesService.findAllPlants()
-      rootElement.innerHTML = "";
+      rootElement.innerHTML = ""
       rootElement.appendChild(PlantsPage({plants}))
     },
     "/points-of-interest": () => {

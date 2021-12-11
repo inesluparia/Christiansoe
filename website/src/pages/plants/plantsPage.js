@@ -46,6 +46,7 @@ function PlantsPage(props) {
     listElement.addEventListener("click", async (event) => {
         event.preventDefault()
         const id = Number(event.target.dataset.plantId)
+        console.log("xxxxxx"+id)
         const selectedPlant = await speciesService.findById(id)
 
         //Update text elements
@@ -72,7 +73,7 @@ function PlantsPage(props) {
         } else
             plantsBySeason = await speciesService.findByPlantsBySeason(seasonSelected)
         listElement.innerHTML = plantsBySeason.map(plant => `
-         <li data-animal-id=${plant.id}>
+         <li data-plant-id=${plant.id}>
                  ${plant.name}, ${plant.latinName}
          </li>
         `).join("")
