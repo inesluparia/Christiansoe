@@ -1,5 +1,23 @@
 # Christiansoe website
 
+## Developer server
+To run and test the website while developing, a developer server is used. It provides additional benefits such as live-reloading of code changes and quicker bundling. The developer server can be started on localhost:3000 using the npm script `serve`.
+
+```
+npm run serve
+```
+
+This opens localhost:3000 in the default webbrowser.
+
+## Deployment build
+The npm script `build` builds the website and bundles it to `./dist/main.bundle.js`
+
+```
+npm run build
+```
+
+The bundle file can then be deployed on a website including the content of the `./public` directory.
+
 ## Folder structure
 
 ### Utils
@@ -11,7 +29,7 @@ Services obtain and handle information from their api, providing a ~~human~~ *pr
 ### Pages
 The website consist of multiple pages, each split into one or more files. Folders, within the ./src/pages directory, are named according to their respective url paths.
 
-## Constructing a page
+## Example code for constructing a page
 A page is simply a rendered `HTMLElement`, constructed from a function. We can quite simply create our very own page e.g. `./src/pages/test/testPage.js`
 
 ```js
