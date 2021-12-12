@@ -1,9 +1,9 @@
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -18,6 +18,7 @@ public class PointOfInterest {
     @Column(name = "name")
     private String name;
 
+    @Size(max = 512)
     @Column(name = "description")
     private String description;
 

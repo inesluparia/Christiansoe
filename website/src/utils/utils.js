@@ -6,9 +6,5 @@ export function createElementFromString(str) {
 
 export function renderPageElement(pageElement, rootElement) {
     rootElement.innerHTML = "";
-    pageElement.childNodes.forEach(child => {
-        if (child.nodeType === 1) {
-            rootElement.appendChild(child);
-        }
-    });
+    rootElement.appendChild(pageElement);
 }

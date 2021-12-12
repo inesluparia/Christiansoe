@@ -10,18 +10,19 @@ INSERT INTO media (url, is_image) VALUES
     ('/images/Cyanistes caeruleus.mp3', false),
     ('/images/Cyanistes caeruleus.jpg', true),
     ('/images/Cichorium intybus.jpg', true),
-    ('/images/Kongens bastion.jpg', true);
+    ('/images/Kongens bastion.jpg', true),
+    ('/images/Verdens ende.jpg', true);
 
 INSERT INTO species_media (species_id, media_id) VALUES
      (1, 1), (2, 2), (3, 3), (3, 4), (4, 5);
 
-INSERT INTO points_of_interest (description, latitude, longitude, name) VALUES
-    ('description will come.', 55.3192258, 15.1890070,'Møllebakken på Christiansø'),
-    ('description will come.', 55.3179662, 15.1883479, 'Kongens Bastion'),
-    ('description will come.', 55.3232303, 15.1910652, 'Verdens ende');
+INSERT INTO points_of_interest (name, description, latitude, longitude) VALUES
+    ('Møllebakken på Christiansø', 'Etiam ex erat, tristique consectetur massa id, rutrum interdum augue. Nunc vehicula mauris risus, sed auctor mauris dictum sed. Nullam risus orci, consequat eu enim ac, blandit fermentum augue. Nullam faucibus blandit nisl sit amet iaculis.', 55.3192258, 15.1890070),
+    ('Kongens Bastion', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam suscipit est maximus, sagittis ligula ut, sodales sem. Sed id ligula mi. Suspendisse potenti. Sed sodales at elit placerat convallis. Ut sodales ligula ut ipsum egestas, vitae cursus justo dictum.', 55.3179662, 15.1883479),
+    ('Verdens ende', 'Mauris laoreet dui odio, in pulvinar mi molestie at. Cras aliquam, dolor ac commodo porta, massa felis mattis urna, in maximus purus nunc tincidunt tellus.', 55.3232303, 15.1910652);
 
 INSERT INTO points_of_interest_media (point_of_interest_id, media_id) VALUES
-    (2, 6);
+    (2, 6), (3, 7);
 
 INSERT INTO points_of_interest_species (points_of_interest_id, species_id) VALUES
     (1, 1), (1, 2), (2, 1), (2, 3), (2, 4), (3, 3);
