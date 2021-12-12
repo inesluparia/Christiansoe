@@ -1,19 +1,18 @@
-# Christiansoe frontend folder structure
+# Christiansoe website
 
-# Utils
+## Folder structure
+
+### Utils
 Contains common functions e.g. for rendering page elements or shorthands for creating html elements from a string.
 
-# Services
+### Services
 Services obtain and handle information from their api, providing a ~~human~~ *programmer*-friendly way of interacting with api endpoints. It keeps pages and other files clear of hardcoded and/or concatenated urls, by export helpful and common functions.
 
-# Pages
-The website consist of multiple pages, each split into one or more files.
-
-## Subfolders to ./pages
-Folders, within the ./pages directory, are named according to their respective url paths.
+### Pages
+The website consist of multiple pages, each split into one or more files. Folders, within the ./src/pages directory, are named according to their respective url paths.
 
 ## Constructing a page
-A page is simply a rendered `HTMLElement`, constructed from a function. We can quite simply create our very own page e.g. `./pages/test/testPage.js`
+A page is simply a rendered `HTMLElement`, constructed from a function. We can quite simply create our very own page e.g. `./src/pages/test/testPage.js`
 
 ```js
 function TestPage() {
@@ -27,7 +26,7 @@ function TestPage() {
 export default TestPage;
 ```
 
-Then in `index.js` we will need to import and render the function in its route callback function.
+Then in `./src/index.js` we will need to import and render the function in its route callback function.
 
 ```js
 import "./style.scss";
