@@ -35,3 +35,11 @@ INSERT INTO points_of_interest_media (point_of_interest_id, media_id) VALUES
 
 INSERT INTO points_of_interest_species (points_of_interest_id, species_id) VALUES
     (1, 1), (1, 2), (2, 1), (2, 3), (2, 4), (3, 3);
+
+INSERT INTO routes (name, description) VALUES
+('FrøStien', 'Du kan følge ruten fra frøstien til at opdage Christiansø fantastiske frø og tudser diversitet!')
+;
+
+INSERT INTO routes_points_of_interest (route_id, points_of_interest_id) VALUES
+(1, 1), (1, 2), (1, 3);
+
