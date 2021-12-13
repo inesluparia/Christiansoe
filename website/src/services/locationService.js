@@ -1,6 +1,6 @@
 export const locationService = {
     getDistanceBetween: (fromLocation, toLocation) => {
-        const R = 6371; // Radius of the earth in km
+        const R = 6371e3; // Radius of the earth in meters.
         
         const deg2rad = (deg) => deg * (Math.PI / 180);
 
@@ -12,23 +12,32 @@ export const locationService = {
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
         
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const d = R * c; // Distance in km
+        const d = R * c; // Distance in meters.
         
         return d;
     },
     getCurrentLocationAsync: async () => {
+        const lastKnowLocation = JSON.parse(localStorage.getItem('lastKnowLocation'));
+        const isValid = lastKnowLocation?.expiresAt > Date.now();
+
+        if (isValid)
+            return lastKnowLocation;
+        
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition((position) => {
                 if (position) {
-                    resolve(position.coords);
+                    const { latitude, longitude } = position.coords;
+                    const location = { 
+                        latitude, 
+                        longitude,
+                        expiresAt: new Date().getTime() + 1000 * 60,
+                    };
+                    localStorage.setItem('lastKnowLocation', JSON.stringify(location));
+                    resolve(location);
                 } else {
                     reject();
                 }
             });
         });
-    },
-    getDistanceToLocationFromCurrentLocationAsync: async (location) => {
-        const currentLocation = await locationService.getCurrentLocationAsync();
-        return locationService.getDistanceBetween(currentLocation, location);
     },
 };
