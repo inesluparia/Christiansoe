@@ -17,7 +17,8 @@ function AnimalsPage(props) {
         <li data-season="winter">Vinter</li>
         <li data-season="">Se alle</li>
       </span>
-      </div>`
+      </div>
+      `
 
     const listStr = animals.map(animal => `
       <li data-animal-id=${animal.id}>
@@ -26,14 +27,15 @@ function AnimalsPage(props) {
        `).join("")
 
     const detailsStr =
-        `<aside>
+        `<hr> 
+        <aside>
             <h2>${animals[2].name}</h2>
             <h4>${animals[2].latinName}</h4>
             <p>${animals[2].description}</p>
-            <img src="${animals[2].media.find(m => m.isImage).url}"> 
             <audio controls>
               <source src="/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
             </audio>
+            <img src="${animals[2].media.find(m => m.isImage).url}"> 
         </aside>`;
 
     let listElement = createElementFromString(listStr)
@@ -43,7 +45,7 @@ function AnimalsPage(props) {
     detailsElement.id = "details-container"
 
     const dropdownElement = createElementFromString(dropdownStr)
-    dropdownElement.id = "details-container"
+    dropdownElement.id = "dropdown-container"
 
 
     listElement.addEventListener("click", async (event) => {
