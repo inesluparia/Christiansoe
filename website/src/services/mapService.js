@@ -44,7 +44,6 @@ export function getRouteFromStartAndEndLocation(startCoordinate, distinationCoor
         .then((coordinates) => {
             coordinates.unshift(startCoordinate); // Add the start location to the beginning of the array.
             coordinates.push(distinationCoordinate); // Add the end location to the end of the array.
-            // console.log("locations", JSON.stringify(coordinates, null, 2));
             return coordinates;
         });
 }
