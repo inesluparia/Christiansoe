@@ -29,26 +29,27 @@ export function createMap(rootElement) {
  * @property {mapboxgl.LngLatLike} location - The location of the waypoint} startLocation
  * @property {number} distance - The distance of the waypoint from the start location.
  *
- * @param {mapboxgl.LngLatLike} startLocation The starting location of the route.
- * @param {mapboxgl.LngLatLike} endLocation The ending location of the route.
+ * @param {mapboxgl.LngLatLike} startCoordinate The starting location of the route.
+ * @param {mapboxgl.LngLatLike} distinationCoordinate The ending location of the route.
  *
  * @returns {Promise<Waypoint>} Returns a promise that resolves to an array of {@link Waypoint}.
  */
-export function getRouteFromStartAndEndLocation(startLocation, endLocation) {
-    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${startLocation};${endLocation}`;
+export function getRouteFromStartAndEndLocation(startCoordinate, distinationCoordinate) {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${startCoordinate};${distinationCoordinate}`;
     let queryParams = `?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`;
 
     return fetch(url + queryParams)
         .then((response) => response.json())
         .then((route) => route.routes[0].geometry.coordinates)
-        .then((locations) => {
-            locations.unshift(startLocation); // Add the start location to the beginning of the array.
-            locations.push(endLocation); // Add the end location to the end of the array.
-            return locations;
+        .then((coordinates) => {
+            coordinates.unshift(startCoordinate); // Add the start location to the beginning of the array.
+            coordinates.push(distinationCoordinate); // Add the end location to the end of the array.
+            // console.log("locations", JSON.stringify(coordinates, null, 2));
+            return coordinates;
         });
 }
 
-export function drawRouteOnMap(map, locations) {
+export function drawRouteOnMap(map, coordinates) {
     map.addLayer({
         id: "route",
         type: "line",
@@ -57,7 +58,10 @@ export function drawRouteOnMap(map, locations) {
             data: {
                 type: "Feature",
                 properties: {},
-                geometry: locations,
+                geometry: {
+                    type: "LineString",
+                    coordinates: coordinates,
+                },
             },
         },
         layout: {
@@ -67,23 +71,10 @@ export function drawRouteOnMap(map, locations) {
         paint: {
             "line-color": "#03AA46",
             "line-width": 8,
-            "line-opacity": 0.8,
+            "line-opacity": 1,
         },
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Draw a marker on the specified map.
