@@ -8,7 +8,9 @@ function PlantsPage(props) {
 
     let plants = props.plants
 
-    const dropdownStr = `<div class="dropdown">
+    const dropdownStr = `
+      <h1>Øens planter</h1><hr><br><br><br>
+      <div class="dropdown">
       <button class="dropbtn">Filter by season</button>
       <span class="dropdown-content">
         <li data-season="spring">Forår</li>
@@ -26,7 +28,8 @@ function PlantsPage(props) {
        `).join("")
 
     const detailsStr =
-        `<aside>
+        `<hr>
+        <aside>
             <h2>${plants[0].name}</h2>
             <h4>${plants[0].latinName}</h4>
             <p>${plants[0].description}</p>

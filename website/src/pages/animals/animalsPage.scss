@@ -1,6 +1,5 @@
-li {
-  padding-left: 0.75rem;
-  list-style-type: none;
+#top-section {
+  margin: 3rem;
 }
 
 #list-container {
@@ -15,12 +14,11 @@ li {
   li:hover {
     padding-left: 1.2rem;
     -webkit-transition: all 0.1s ease-in-out;
-    font-width: bold;
+    font-weight: bold;
   }
 }
 
-aside {
-
+#details-container {
   padding: 2rem;
 
   p {
@@ -31,25 +29,26 @@ aside {
   }
 
   img {
+    width: 80%;
+    display: block;
     margin-top: 2rem;
-    width: 90%;
-    margin-left: 2rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   audio {
     margin-left: 2rem;
     text-align: center  }
-
-
 }
 
 //Dropdown button
 .dropbtn {
-  color: white;
-  background-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: white;
   padding: 16px;
   font-size: 16px;
-  border-radius: 0.3rem;
+  border: solid var(--color-accent);
+  font-weight: bold;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -79,7 +78,7 @@ aside {
 
 /* Change color of dropdown links on hover */
 .dropdown-content li:hover {
-  background-color: var(--color-accent);
+  background-color: grey;
   color: white;
 }
 
@@ -87,4 +86,5 @@ aside {
 .dropdown:hover .dropdown-content {display: block;}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: darkgoldenrod;}
+.dropdown:hover .dropbtn {background-color: var(--color-accent);
+color: white;}
