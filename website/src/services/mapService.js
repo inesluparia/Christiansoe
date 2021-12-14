@@ -1,72 +1,99 @@
 import mapboxgl from "mapbox-gl";
 
-navigator.geolocation.getCurrentPosition(getFerryDistance);
-/*
-let intervalId = window.setInterval(function(){
-
-    /// call your function here
-}, 10000);
-*/
-
-//TODO Spørg hvordan det er async løser problemet
-async function getFerryDistance(userLocation) {
-    let userLongitude = userLocation.coords.longitude;
-    let userLatitude = userLocation.coords.latitude;
-
-    const query = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/walking/${start};${userLongitude},${userLatitude}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`,
-        { method: "GET" }
-    );
-
-    const json = await query.json();
-    const data = json.routes[0];
-
-    const rawDistance = data.distance;
-
-    let tripDuration = Math.floor(data.duration / 60) + " min. 🚶‍♂";
-    let tripDistance = trimmingDistance(rawDistance);
-
-    console.log(tripDuration);
-    console.log(tripDistance);
-
-    const ferryEta = document.getElementById("ferry-eta");
-    ferryEta.innerHTML =
-        "<strong>Christansø Færgeterminal </strong>" +
-        tripDuration +
-        tripDistance;
-}
-
 mapboxgl.accessToken =
     "pk.eyJ1IjoiYXNnZXJrcmFiYmUiLCJhIjoiY2t3bmwxMG0wMm1wazJ2cXZ3cGhsZGNkOCJ9.F3h5DOWVUaRYultvyMggYQ";
-/*
-const map = new mapboxgl.Map({
-    container: pageElement.querySelector("#map"), // container ID
-    style: 'mapbox://styles/mapbox/outdoors-v11', // style URL
-    center: [15.188356982912637, 55.320417209601885], // starting position [lng, lat]
-    zoom: 15.5, // starting zoom
-    minZoom: 14 // min zoom in
-})
-*/
 
 /**
  * Create a map object inside the specified DOM element.
- * 
+ *
  * @param {HTMLDivElement} rootElement
  * @returns {mapboxgl.Map}
+ * @example
+ * const map = createMap(document.querySelector("#map"));
  */
 export function createMap(rootElement) {
     return new mapboxgl.Map({
-        container: rootElement.querySelector("#map"), // container ID
+        container: rootElement, // container ID
         style: "mapbox://styles/mapbox/outdoors-v11", // style URL
         center: [15.188356982912637, 55.320417209601885], // starting position [lng, lat]
         zoom: 15.5, // starting zoom
-        minZoom: 14, // min zoom in
+        // minZoom: 14, // min zoom in
     });
 }
 
-export function drawMarkerOnMap(map, coordinates) {
+/**
+ *
+ *
+ * @typedef {Object} Waypoint
+ * @property {string} name - The name of the waypoint.
+ * @property {mapboxgl.LngLatLike} location - The location of the waypoint} startLocation
+ * @property {number} distance - The distance of the waypoint from the start location.
+ *
+ * @param {mapboxgl.LngLatLike} startLocation The starting location of the route.
+ * @param {mapboxgl.LngLatLike} endLocation The ending location of the route.
+ *
+ * @returns {Promise<Waypoint>} Returns a promise that resolves to an array of {@link Waypoint}.
+ */
+export function getRouteFromStartAndEndLocation(startLocation, endLocation) {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${startLocation};${endLocation}`;
+    let queryParams = `?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`;
+
+    return fetch(url + queryParams)
+        .then((response) => response.json())
+        .then((route) => route.routes[0].geometry.coordinates)
+        .then((locations) => {
+            locations.unshift(startLocation); // Add the start location to the beginning of the array.
+            locations.push(endLocation); // Add the end location to the end of the array.
+            return locations;
+        });
+}
+
+export function drawRouteOnMap(map, locations) {
     map.addLayer({
-        id: "end",
+        id: "route",
+        type: "line",
+        source: {
+            type: "geojson",
+            data: {
+                type: "Feature",
+                properties: {},
+                geometry: locations,
+            },
+        },
+        layout: {
+            "line-join": "round",
+            "line-cap": "round",
+        },
+        paint: {
+            "line-color": "#03AA46",
+            "line-width": 8,
+            "line-opacity": 0.8,
+        },
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Draw a marker on the specified map.
+ *
+ * @param {mapboxgl.Map} map The map on which to draw the marker.
+ * @param {mapboxgl.LngLatLike} coordinates The coordinates of the marker.
+ */
+export function drawMarkerOnMap(map, id, coordinates) {
+    map.addLayer({
+        id,
         type: "circle",
         source: {
             type: "geojson",
@@ -85,12 +112,41 @@ export function drawMarkerOnMap(map, coordinates) {
             },
         },
         paint: {
-            "circle-radius": 10,
+            "circle-radius": 8,
             "circle-color": "#f30",
             "circle-opacity": 1,
         },
     });
 }
+
+// navigator.geolocation.getCurrentPosition(getFerryDistance);
+
+// async function getFerryDistance(userLocation) {
+//     let userLongitude = userLocation.coords.longitude;
+//     let userLatitude = userLocation.coords.latitude;
+
+//     const query = await fetch(
+//         `https://api.mapbox.com/directions/v5/mapbox/walking/${start};${userLongitude},${userLatitude}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`,
+//         { method: "GET" }
+//     );
+
+//     const json = await query.json();
+//     const data = json.routes[0];
+
+//     const rawDistance = data.distance;
+
+//     let tripDuration = Math.floor(data.duration / 60) + " min. 🚶‍♂";
+//     let tripDistance = trimmingDistance(rawDistance);
+
+//     console.log(tripDuration);
+//     console.log(tripDistance);
+
+//     const ferryEta = document.getElementById("ferry-eta");
+//     ferryEta.innerHTML =
+//         "<strong>Christansø Færgeterminal </strong>" +
+//         tripDuration +
+//         tripDistance;
+// }
 
 // map.on("click", (event) => {
 //     const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
@@ -140,8 +196,6 @@ export function drawMarkerOnMap(map, coordinates) {
 //     }
 //     getRoute(coords);
 // });
-
-
 
 // export async function getRouteBetweenLocations(...locations) {
 //     let firstPartUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${
