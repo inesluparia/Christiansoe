@@ -1,3 +1,21 @@
+body{
+  margin-left: 10rem;
+  margin-right: 10rem;
+  margin-top: 3rem;
+}
+
+#flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  section {
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
 #route-container {
   margin: 2rem;
 
@@ -26,7 +44,7 @@ details {
   width: 70%;
   margin: 0 auto .5rem;
  // box-shadow: 0 0 2rem -.5rem rgba(0,0,0,.4);
-  overflow: hidden;
+ // overflow: hidden;
   font-size: 16px;
   background: white;
   padding-left: 2.2rem;

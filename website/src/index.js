@@ -5,23 +5,13 @@ import {renderPageElement} from "./utils/utils";
 import PointsOfInterestPage from "./pages/points-of-interest/pointsOfInterestPage";
 import AnimalsPage from "./pages/animals/animalsPage";
 import PlantsPage from "./pages/plants/plantsPage";
-<<<<<<< HEAD
-import { pointsOfInterestService } from "./services/pointsOfInterestService";
-import { speciesService } from "./services/speciesService";
-import { locationService } from "./services/locationService";
-import {routesService} from "./services/routesService";
 import RoutesPage from "./pages/routes/routesPage";
-||||||| 60de507
-import { pointsOfInterestService } from "./services/pointsOfInterestService";
-import { speciesService } from "./services/speciesService";
-import { locationService } from "./services/locationService";
-=======
 import MapPage from "./pages/map/mapPage";
+import {routesService} from "./services/routesService";
 import {pointsOfInterestService} from "./services/pointsOfInterestService";
 import {speciesService} from "./services/speciesService";
 import {locationService} from "./services/locationService";
 
->>>>>>> refactor-map
 
 const router = new Navigo("/");
 const rootElement = document.getElementById("root");
@@ -39,21 +29,15 @@ router.on({
         rootElement.innerHTML = ""
         rootElement.appendChild(PlantsPage({plants}))
     },
-<<<<<<< HEAD
     "/routes": async () => {
         const routes = await routesService.findAll()
         rootElement.innerHTML = ""
         rootElement.appendChild(RoutesPage({routes}))
     },
-||||||| 60de507
-=======
     "/map": async () => {
         rootElement.innerHTML = ""
         rootElement.appendChild(MapPage())
     },
-
-
->>>>>>> refactor-map
     "/points-of-interest": async () => {
         const pointsOfInterest = await pointsOfInterestService.findAll();
 
