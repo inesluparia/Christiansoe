@@ -1,9 +1,8 @@
-import {createElementFromString} from "../../utils/utils";
+import { createElementFromString } from "../../utils/utils";
+import { createMap, drawMarkerOnMap } from "../../services/mapService";
 import "./mapPage.scss";
-import mapboxgl from "mapbox-gl";
 
 function MapPage() {
-    const mapElement = document.getElementById("map");
 
     const pageElement = createElementFromString(`
         <div id="map"></div>
@@ -12,7 +11,16 @@ function MapPage() {
             <button id="waypoint-button">Set waypoint</button>
         </div>
     `);
-
+    
+    // .on("click", (event) => {
+    //     const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
+    //     console.log("coords", coords);
+    // });
+    
+    const map = createMap(pageElement);
+    map.on("load", () => {
+        drawMarkerOnMap(map, [15.188356982912637, 55.320417209601885]);
+    });
 
     return pageElement;
 }
