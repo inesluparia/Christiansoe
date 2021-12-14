@@ -1,3 +1,5 @@
+import {createElementFromString} from "../../utils/utils";
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXNnZXJrcmFiYmUiLCJhIjoiY2t3bmwxMG0wMm1wazJ2cXZ3cGhsZGNkOCJ9.F3h5DOWVUaRYultvyMggYQ'
 
 const map = new mapboxgl.Map({
@@ -14,6 +16,8 @@ map.addControl(new mapboxgl.GeolocateControl({
     }, // When active the map will receive updates to the device's location as it changes.
     trackUserLocation: true
 }))
+
+
 
 //API URL
 //https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${waypointList[0]};${end[0]},${end[1]}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`
@@ -133,7 +137,7 @@ function saveRoute() {
     let waypointMarker = new mapboxgl.Marker(el).setLngLat(coordReadyForSave[0]).addTo(map)
 }
 
-document.getElementById('button').addEventListener("click", saveRoute)
+document.getElementById('waypoint-button').addEventListener("click", saveRoute)
 //document.getElementById('clear-button').addEventListener("click", clearWaypoints)
 
 //When user clicks on the map, the corresponding coordinates will be saved in a const
