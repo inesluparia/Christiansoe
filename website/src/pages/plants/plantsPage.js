@@ -9,7 +9,7 @@ function PlantsPage(props) {
     let plants = props.plants
 
     const htmlStr = `
-    <h1>Øens dyr</h1>
+    <h1>Øens planter</h1>
     <hr>
     <section id="top-section">
         <div id="dropdown-container" class="dropdown">
