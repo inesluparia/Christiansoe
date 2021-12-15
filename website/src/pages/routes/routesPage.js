@@ -1,6 +1,7 @@
 import {createElementFromString} from "../../utils/utils"
 import "./routesPage.scss"
-import {createMap} from "../../services/mapService";
+import {createMap, drawRouteOnMap} from "../../services/mapService";
+import {routesService} from "../../services/routesService";
 export default RoutesPage
 
 function RoutesPage(props) {
@@ -48,6 +49,8 @@ function RoutesPage(props) {
     list.addEventListener("click", (event) => {
         //I dont know know to get the hole route element
         const id = event.target.dataset.id
+        const points = routesService.findById(id).pointsOfInterest
+        //(mapElement, .....)
         //
     });
 
