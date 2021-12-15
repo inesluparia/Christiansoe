@@ -29,17 +29,19 @@ router.hooks({
 router.on({
     "/": () => {},
     "/animals": async () => {
-        const animals = await speciesService.findAllAnimals()
+        const animals = await speciesService.findAllAnimals();
         injectPageBeforeRender(AnimalsPage({ animals }));
     },
     "/plants": async () => {
-        const plants = await speciesService.findAllPlants()
+        const plants = await speciesService.findAllPlants();
         injectPageBeforeRender(PlantsPage({ plants }));
     },
     "/routes": async () => {
-        const routes = await routesService.findAll()
-        rootElement.innerHTML = "";
-        rootElement.appendChild(RoutesPage({ routes }));
+        const routes = await routesService.findAll();
+        injectPageBeforeRender(RoutesPage({ routes }));
+    },
+    "/map": async () => {
+        injectPageBeforeRender(MapPage());
     },
     "/points-of-interest": async () => {
         const pointsOfInterest = await pointsOfInterestService.findAll();
