@@ -6,7 +6,10 @@ function NavigationPage() {
         <nav>
             <ul>
                 <li>
-                    <a href="/" data-navigo>Forside</a>
+                    <a href="/" data-navigo>Christiansø</a>
+                </li>
+                <li>
+                    <a href="/map" data-navigo>Kort over øen</a>
                 </li>
                 <li>
                     <a href="/points-of-interest" data-navigo>Interessepunkter</a>
@@ -19,6 +22,13 @@ function NavigationPage() {
                 </li>
             </ul>
             <div class="ferry-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="5" r="3"></circle>
+                    <line x1="12" y1="22" x2="12" y2="8"></line>
+                    <path d="M5 12H2a10 10 0 0020 0h-3"></path>
+                </svg>
+                <span class="ferry-distance">~485 m</span>
+                <time class="ferry-time" datetime="PT2H30M">8 min</time>
             </div>
             <button id="toggle-nav-menu">
                 <svg id="open-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
