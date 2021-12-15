@@ -45,35 +45,8 @@ router.on({
     },
     "/points-of-interest": async () => {
         const pointsOfInterest = await pointsOfInterestService.findAll();
-
-        // const renderPointsOfInterestPage = (props) => {
-        //     // PointsOfInterestPage(props);
-        //     renderPages(rootElement);
-        // };
-        const onFilterChange = (sortBy) => {
-        //     if (sortBy === "distance") {
-        //         locationService.getCurrentLocationAsync().then(currentLocation => {
-        //             // Adding, as a property, on each point of interest, the distance from
-        //             // the user's current location to the location of the point of interest.
-        //             Promise.all(pointsOfInterest.map(async (pointOfInterest) => {
-        //                 const distance = await locationService
-        //                     .getDistanceBetween(currentLocation, pointOfInterest.location);
-
-        //                 pointOfInterest.distance = distance;
-
-        //                 return pointOfInterest;
-
-        //             })).then(() => {
-        //                 renderPointsOfInterestPage({ pointsOfInterest, onFilterChange, sortBy });
-        //             });
-        //         });
-
-        //     } 
-        //     // else {
-        //     //     renderPointsOfInterestPage({ pointsOfInterest, onFilterChange, sortBy });
-        //     // }
-        };
-        // renderPointsOfInterestPage({ pointsOfInterest, onFilterChange, sortBy: "name" });
+        
+        const onFilterChange = (sortBy) => {};
 
         injectPageBeforeRender(PointsOfInterestPage({ 
             pointsOfInterest, 
