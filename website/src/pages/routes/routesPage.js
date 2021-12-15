@@ -1,7 +1,13 @@
 import {createElementFromString} from "../../utils/utils"
 import "./routesPage.scss"
-import {createMap, drawRouteOnMap} from "../../services/mapService";
+import {
+    createMap,
+    drawRouteOnMap,
+    getRouteFromCoordinates,
+    getRouteFromStartAndEndLocation
+} from "../../services/mapService";
 import {routesService} from "../../services/routesService";
+import * as mapService from "../../services/mapService";
 export default RoutesPage
 
 function RoutesPage(props) {
@@ -30,7 +36,6 @@ function RoutesPage(props) {
                                         </li>
                                     `).join("")}
                                 </ol>
-                            <img src="/images/kort-dummy.png">
                         </span>
                     </details>    
                 </div>
@@ -43,16 +48,32 @@ function RoutesPage(props) {
     `)
 
     let mapElement = pageElement.querySelector(".map-container")
-    createMap(mapElement)
+    const map = createMap(mapElement)
 
     const list = pageElement.querySelector("#routes-container");
-    list.addEventListener("click", (event) => {
-        //I dont know know to get the hole route element
+
+    list.addEventListener("click", async (event) => {
         const id = event.target.dataset.id
-        const points = routesService.findById(id).pointsOfInterest
-        //(mapElement, .....)
-        //
+        const route = await routesService.findById(id)
+
+        console.log(route.pointsOfInterest[0].name)
+
+        const coordinates = route.pointsOfInterest.map((point)=> {
+            const lat = point.location.latitude
+            const long = point.location.longitude
+            return [{lat}, {long}]
+        })
+        // so far so good? is an array of two doubles objects the right format for coordinates???
+        console.log(coordinates)
+        await loadRoute(coordinates)
     });
 
+    async function loadRoute (...coords) {
+        map.resize();
+        const waypoints = await mapService.getRouteFromCoordinates(
+            [15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
+        );
+        mapService.drawRouteOnMap(map, waypoints);
+    }
     return pageElement
 }

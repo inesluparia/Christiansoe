@@ -20,9 +20,6 @@ router.hooks({
     before(done, match) {
         injectPageBeforeRender(NavigationPage());
         done();
-    },
-    after(match) {
-        renderPages(rootElement);
     }
 });
 
@@ -31,14 +28,17 @@ router.on({
     "/animals": async () => {
         const animals = await speciesService.findAllAnimals();
         injectPageBeforeRender(AnimalsPage({ animals }));
+        renderPages(rootElement);
     },
     "/plants": async () => {
         const plants = await speciesService.findAllPlants();
         injectPageBeforeRender(PlantsPage({ plants }));
+        renderPages(rootElement);
     },
     "/routes": async () => {
         const routes = await routesService.findAll();
         injectPageBeforeRender(RoutesPage({ routes }));
+        renderPages(rootElement);
     },
     "/map": async () => {
         injectPageBeforeRender(MapPage());
@@ -68,17 +68,17 @@ router.on({
         //             });
         //         });
 
-        //     } 
+        //     }
         //     // else {
         //     //     renderPointsOfInterestPage({ pointsOfInterest, onFilterChange, sortBy });
         //     // }
         };
         // renderPointsOfInterestPage({ pointsOfInterest, onFilterChange, sortBy: "name" });
 
-        injectPageBeforeRender(PointsOfInterestPage({ 
-            pointsOfInterest, 
-            onFilterChange, 
-            sortBy: "name" 
+        injectPageBeforeRender(PointsOfInterestPage({
+            pointsOfInterest,
+            onFilterChange,
+            sortBy: "name"
         }));
 
         renderPages(rootElement);
