@@ -13,11 +13,11 @@ function MapPage() {
         
         map.resize();
         
-        const waypoints = await mapService.getRouteFromStartAndEndLocation(
-            [15.188356982912637, 55.320417209601885], 
+        const waypoints = await mapService.getRouteFromCoordinates(
+            [15.1883569, 55.3204172], 
             [15.1928236, 55.3201917]
         );
-
+        
         mapService.drawRouteOnMap(map, waypoints);
     });
 

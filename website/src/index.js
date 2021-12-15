@@ -1,80 +1,90 @@
 import "./style.scss";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Navigo from "navigo";
-import {renderPageElement} from "./utils/utils";
+import { injectPageBeforeRender, renderPages } from "./utils/utils";
 import PointsOfInterestPage from "./pages/points-of-interest/pointsOfInterestPage";
 import AnimalsPage from "./pages/animals/animalsPage";
 import PlantsPage from "./pages/plants/plantsPage";
+import NavigationPage from "./pages/navigationPage";
+import { pointsOfInterestService } from "./services/pointsOfInterestService";
+import { speciesService } from "./services/speciesService";
+import { locationService } from "./services/locationService";
+import { routesService } from "./services/routesService";
 import RoutesPage from "./pages/routes/routesPage";
 import MapPage from "./pages/map/mapPage";
-import {routesService} from "./services/routesService";
-import {pointsOfInterestService} from "./services/pointsOfInterestService";
-import {speciesService} from "./services/speciesService";
-import {locationService} from "./services/locationService";
-
 
 const router = new Navigo("/");
 const rootElement = document.getElementById("root");
 
-router.on({
-    "/": () => {
+router.hooks({
+    before(done, match) {
+        injectPageBeforeRender(NavigationPage());
+        done();
     },
+    after(match) {
+        renderPages(rootElement);
+    }
+});
+
+router.on({
+    "/": () => {},
     "/animals": async () => {
-        const animals = await speciesService.findAllAnimals()
-        rootElement.innerHTML = ""
-        rootElement.appendChild(AnimalsPage({animals}))
+        const animals = await speciesService.findAllAnimals();
+        injectPageBeforeRender(AnimalsPage({ animals }));
     },
     "/plants": async () => {
-        const plants = await speciesService.findAllPlants()
-        rootElement.innerHTML = ""
-        rootElement.appendChild(PlantsPage({plants}))
+        const plants = await speciesService.findAllPlants();
+        injectPageBeforeRender(PlantsPage({ plants }));
     },
     "/routes": async () => {
-        const routes = await routesService.findAll()
-        rootElement.innerHTML = ""
-        rootElement.appendChild(RoutesPage({routes}))
+        const routes = await routesService.findAll();
+        injectPageBeforeRender(RoutesPage({ routes }));
     },
     "/map": async () => {
-        rootElement.innerHTML = ""
-        rootElement.appendChild(MapPage())
+        injectPageBeforeRender(MapPage());
     },
     "/points-of-interest": async () => {
         const pointsOfInterest = await pointsOfInterestService.findAll();
 
-        const renderPointsOfInterestPage = (props) => {
-            renderPageElement(
-                PointsOfInterestPage(props),
-                rootElement
-            );
-        };
-
+        // const renderPointsOfInterestPage = (props) => {
+        //     // PointsOfInterestPage(props);
+        //     renderPages(rootElement);
+        // };
         const onFilterChange = (sortBy) => {
-            if (sortBy === "distance") {
-                locationService.getCurrentLocationAsync().then(currentLocation => {
-                    // Adding, as a property, on each point of interest, the distance from
-                    // the user's current location to the location of the point of interest.
-                    Promise.all(pointsOfInterest.map(async (pointOfInterest) => {
-                        const distance = await locationService
-                            .getDistanceBetween(currentLocation, pointOfInterest.location);
+        //     if (sortBy === "distance") {
+        //         locationService.getCurrentLocationAsync().then(currentLocation => {
+        //             // Adding, as a property, on each point of interest, the distance from
+        //             // the user's current location to the location of the point of interest.
+        //             Promise.all(pointsOfInterest.map(async (pointOfInterest) => {
+        //                 const distance = await locationService
+        //                     .getDistanceBetween(currentLocation, pointOfInterest.location);
 
-                        pointOfInterest.distance = distance;
+        //                 pointOfInterest.distance = distance;
 
-                        return pointOfInterest;
+        //                 return pointOfInterest;
 
-                    })).then(() => {
-                        renderPointsOfInterestPage({pointsOfInterest, onFilterChange, sortBy});
-                    });
-                });
+        //             })).then(() => {
+        //                 renderPointsOfInterestPage({ pointsOfInterest, onFilterChange, sortBy });
+        //             });
+        //         });
 
-            } else {
-                renderPointsOfInterestPage({pointsOfInterest, onFilterChange, sortBy});
-            }
+        //     } 
+        //     // else {
+        //     //     renderPointsOfInterestPage({ pointsOfInterest, onFilterChange, sortBy });
+        //     // }
         };
+        // renderPointsOfInterestPage({ pointsOfInterest, onFilterChange, sortBy: "name" });
 
-        renderPointsOfInterestPage({pointsOfInterest, onFilterChange, sortBy: "name"});
-    },
+        injectPageBeforeRender(PointsOfInterestPage({ 
+            pointsOfInterest, 
+            onFilterChange, 
+            sortBy: "name" 
+        }));
+
+        renderPages(rootElement);
+    }
 })
-    .notFound(() => {
-        alert("Not found!");
-    })
-    .resolve();
+.notFound(() => {
+    alert("Not found!");
+})
+.resolve();
