@@ -8,47 +8,43 @@ function AnimalsPage(props) {
 
     let animals = props.animals
 
-    const dropdownStr = `<div class="dropdown">
-      <button class="dropbtn">Filter by season</button>
-      <span class="dropdown-content">
-        <li data-season="spring">Forår</li>
-        <li data-season="summer">Sommer</li>
-        <li data-season="autumn">Efterår</li>
-        <li data-season="winter">Vinter</li>
-        <li data-season="">Se alle</li>
-      </span>
-      </div>
-      `
-
-    const listStr = animals.map(animal => `
-      <li data-animal-id=${animal.id}>
-                ${animal.name}, ${animal.latinName}
-        </li>
-       `).join("")
-
-    const detailsStr =
-        `<hr> 
-        <aside>
+    const htmlStr = `
+    <h1>Øens dyr</h1>
+    <hr>
+    <section id="top-section">
+        <div id="dropdown-container" class="dropdown">
+          <button class="dropbtn">Sorter efter sæson</button>
+          <span class="dropdown-content">
+            <li data-season="spring">Forår</li>
+            <li data-season="summer">Sommer</li>
+            <li data-season="autumn">Efterår</li>
+            <li data-season="winter">Vinter</li>
+            <li data-season="">Alle sæsoner</li>
+          </span>
+        </div>
+        <ul id="list-container">
+            ${animals.map(animal => `
+            <li data-animal-id=${animal.id}>
+                        ${animal.name}, ${animal.latinName}
+            </li>`).join("")}
+        </ul>  
+    </section>
+    <hr> 
+        <aside id="details-container">
             <h2>${animals[2].name}</h2>
             <h4>${animals[2].latinName}</h4>
             <p>${animals[2].description}</p>
             <audio controls>
               <source src="/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
             </audio>
-            <img src="${animals[2].media.find(m => m.isImage).url}"> 
-        </aside>`;
+            <img src="${animals[2].media.find(m => m.isImage).url}" alt=""> 
+        </aside>`
 
-    let listElement = createElementFromString(listStr)
-    listElement.id = "list-container"
-
-    const detailsElement = createElementFromString(detailsStr)
-    detailsElement.id = "details-container"
-
-    const dropdownElement = createElementFromString(dropdownStr)
-    dropdownElement.id = "dropdown-container"
+    const pageElement = createElementFromString(htmlStr)
 
 
-    listElement.addEventListener("click", async (event) => {
+    let list = pageElement.querySelector("#list-container")
+    list.addEventListener("click", async (event) => {
         event.preventDefault()
         const id = Number(event.target.dataset.animalId)
         const selectedAnimal = await speciesService.findById(id)
@@ -74,7 +70,8 @@ function AnimalsPage(props) {
         }
     })
 
-    dropdownElement.querySelector("span").addEventListener("click", async (event) => {
+    const dropdown = pageElement.querySelector(".dropdown-content")
+    dropdown.addEventListener("click", async (event) => {
         event.preventDefault()
         const seasonSelected = event.target.dataset.season
         let animalsBySeason;
@@ -82,18 +79,13 @@ function AnimalsPage(props) {
             animalsBySeason = animals
         } else
         animalsBySeason = await speciesService.findByAnimalsBySeason(seasonSelected)
-         listElement.innerHTML = animalsBySeason.map(animal => `
+         list.innerHTML = animalsBySeason.map(animal => `
          <li data-animal-id=${animal.id}>
                  ${animal.name}, ${animal.latinName}
          </li>
         `).join("")
-
     })
 
-    const pageElement = document.createElement("div")
-    pageElement.appendChild(dropdownElement)
-    pageElement.appendChild(listElement)
-    pageElement.appendChild(detailsElement)
     return pageElement
 
 

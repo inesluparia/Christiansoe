@@ -9,4 +9,6 @@ public interface RoutesRepository extends JpaRepository<Route,Long> {
 
     List<Route> findAll();
 
+    Route findById(long id);
+
 }
