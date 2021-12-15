@@ -42,6 +42,7 @@ router.on({
     },
     "/map": async () => {
         injectPageBeforeRender(MapPage());
+        renderPages(rootElement);
     },
     "/points-of-interest": async () => {
         const pointsOfInterest = await pointsOfInterestService.findAll();
