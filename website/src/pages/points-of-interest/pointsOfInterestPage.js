@@ -20,7 +20,6 @@ function PointsOfInterestPage(props) {
     }
 
     const pageElement = createElementFromString(`
-        <div class="loading-spinner"></div>
         <h1>Interessepunkter</h1>
         <hr>
             <div class="filter-container">
@@ -48,7 +47,16 @@ function PointsOfInterestPage(props) {
                 </div>
             </div>
         <hr>
-        <ul>
+        <div class="points-of-interest-list">
+            ${props?.pointsOfInterest.map(point => `
+                <div class="point-of-interest">
+                    <div class="point-of-interest-name">${point.name}</div>
+                    <div class="point-of-interest-description">${point.description}</div>
+                </div>
+            `).join("")}
+        </div>
+
+        <!--<ul class="simple-list">
             ${props?.pointsOfInterest.map(point => `
                 <li>
                     <a data-navigo href="/points-of-interest/${point.id}">
@@ -82,7 +90,7 @@ function PointsOfInterestPage(props) {
                     </a>
                 </li>
             `).join("")}
-        </ul>
+        </ul>-->
     `);
 
     const filterSelect = pageElement.querySelector(".filter-select");

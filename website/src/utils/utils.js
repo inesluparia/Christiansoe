@@ -4,7 +4,15 @@ export function createElementFromString(str) {
     return divElement;
 }
 
-export function renderPageElement(pageElement, rootElement) {
+const injectedPageElements = [];
+
+export function injectPageBeforeRender(pageElement) {
+    injectedPageElements.push(pageElement);
+}
+
+export function renderPages(rootElement) {
     rootElement.innerHTML = "";
-    rootElement.appendChild(pageElement);
+    injectedPageElements.forEach(pageElement => {
+        rootElement.appendChild(pageElement);
+    });
 }

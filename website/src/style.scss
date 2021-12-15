@@ -2,20 +2,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 
 :root {
+    
+    // Typography
+    
     font-size: 16px;
 
+    --color-captions: hsl(1, 73%, 81%);
+    --color-text: hsl(36, 100%, 0%);
+    
     --font-family-captions: 'Poppins', Arial, Helvetica, sans-serif;
     --font-family-body: 'Inter', Arial, Helvetica, sans-serif;
     
+    // Surfaces & Accents
+
+    // --color-surface: hsl(0, 0%, 100%);
+    // --color-surface-secondary: hsl(215, 65%, 90%);
     --color-surface: hsl(0, 0%, 100%);
-    --color-surface-secondary: hsl(215, 65%, 90%);
+    --color-surface-lighter: hsl(254, 33%, 29%);
 
-    --color-accent: hsl(50, 100%, 45%);
+    --color-surface-secondary-darker: hsl(354, 35%, 42%);
+    --color-surface-secondary: hsl(354, 35%, 52%);
+    --color-surface-secondary-lighter: hsl(354, 35%, 62%);
 
-    --color-border: hsl(0, 0%, 92.5%);
+    // --color-accent: hsl(50, 100%, 45%);
+    --color-accent: hsl(220, 52%, 64%);
 
-    --color-captions: hsl(0, 0%, 0%);
-    --color-text: hsl(0, 0%, 33%);
+    // Borders & Shadows
+
+    --color-border: hsl(32, 76%, 76%);
+
+    --border-radius: 0.5rem;
+    --border-radius-lg: 1rem;
+    --border-radius-xl: 1.5rem;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 :focus {
@@ -31,8 +53,9 @@
 body {
     margin: 0;
     font-family: var(--font-family-body);
-    color: var(--color-text);
     background-color: var(--color-surface);
+    color: var(--color-text);
+    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
