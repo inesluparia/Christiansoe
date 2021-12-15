@@ -19,15 +19,16 @@ nav {
     .ferry-info {
         display: flex;
         align-items: center;
-        gap: 0.25rem;
+        gap: 0.75rem;
         padding: 0.5rem;
         margin-left: auto;
         z-index: 20;
 
         // background-color: darkseagreen;
 
-        svg {
-            transform: scale(0.75);
+        .ferry-info-text {
+            display: flex;
+            flex-direction: column;
         }
 
         .ferry-distance {
@@ -75,7 +76,7 @@ nav {
     ul {
         top: 0;
         margin: 0;
-        padding: 0 0 0 1rem;
+        padding: 0 1rem;
         width: 85%;
         height: 100vh;
         display: flex;
@@ -119,6 +120,7 @@ nav {
             height: initial;
             width: initial;
             gap: 0.5rem;
+            padding: 0;
 
             font-size: 1rem;
         }
