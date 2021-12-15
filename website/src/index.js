@@ -1,4 +1,5 @@
 import "./style.scss";
+import "mapbox-gl/dist/mapbox-gl.css";
 import Navigo from "navigo";
 import { injectPageBeforeRender, renderPages } from "./utils/utils";
 import PointsOfInterestPage from "./pages/points-of-interest/pointsOfInterestPage";
@@ -8,8 +9,9 @@ import NavigationPage from "./pages/navigationPage";
 import { pointsOfInterestService } from "./services/pointsOfInterestService";
 import { speciesService } from "./services/speciesService";
 import { locationService } from "./services/locationService";
-import {routesService} from "./services/routesService";
+import { routesService } from "./services/routesService";
 import RoutesPage from "./pages/routes/routesPage";
+import MapPage from "./pages/map/mapPage";
 
 const router = new Navigo("/");
 const rootElement = document.getElementById("root");
