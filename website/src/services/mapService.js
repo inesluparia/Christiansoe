@@ -29,21 +29,18 @@ export function createMap(rootElement) {
  * @property {mapboxgl.LngLatLike} location - The location of the waypoint} startLocation
  * @property {number} distance - The distance of the waypoint from the start location.
  *
- * @param {mapboxgl.LngLatLike} startCoordinate The starting location of the route.
- * @param {mapboxgl.LngLatLike} distinationCoordinate The ending location of the route.
+ * @param {mapboxgl.LngLatLike[]} coordinates - The coordinates the route consist of.
  *
  * @returns {Promise<Waypoint>} Returns a promise that resolves to an array of {@link Waypoint}.
  */
-export function getRouteFromStartAndEndLocation(startCoordinate, distinationCoordinate) {
-    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${startCoordinate};${distinationCoordinate}`;
+export function getRouteFromCoordinates(...coordinates) {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinates.join(";")}`;
     let queryParams = `?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`;
 
     return fetch(url + queryParams)
         .then((response) => response.json())
         .then((route) => route.routes[0].geometry.coordinates)
         .then((coordinates) => {
-            coordinates.unshift(startCoordinate); // Add the start location to the beginning of the array.
-            coordinates.push(distinationCoordinate); // Add the end location to the end of the array.
             return coordinates;
         });
 }
