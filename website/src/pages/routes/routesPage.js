@@ -8,6 +8,7 @@ export default RoutesPage
 function RoutesPage(props) {
 
     const pageElement = createElementFromString(`
+    <div id="page-container">
     <h1>Øens ruter</h1>
     <hr>
     <div id="flex-container">
@@ -37,9 +38,9 @@ function RoutesPage(props) {
                 `).join("")}
             </span>
         </section>  
-        <section class="map-container"></section>
+        <section class="map-container" style="width: 800px; height:800px"></section>
     </div>
-  
+    </div>
     `)
 
     let mapElement = pageElement.querySelector(".map-container")
@@ -57,26 +58,23 @@ function RoutesPage(props) {
             const long = point.location.longitude
             return [long, lat]
         })
-
-        //so far so good? is an array of two doubles objects the right format for coordinates???
         console.log(coordinates)
-
         const coord2 = [[15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]]
 
         if (map.getLayer('route')) {
-           map.removeLayer('route')
+            map.removeLayer('route')
             map.removeSource('route')
         }
 
-       loadRoute(coord2)
+        loadRoute(coordinates)
 
     })
 
     async function loadRoute (coordinates) {
         //map.resize();
         const waypoints = await getRouteFromCoordinates(
-            //coordinates
-            [15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
+            coordinates
+            //[15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
         );
         drawRouteOnMap(map, waypoints);
     }

@@ -9,36 +9,39 @@ function AnimalsPage(props) {
     let animals = props.animals
 
     const htmlStr = `
-    <h1>Øens dyr</h1>
-    <hr>
-    <section id="top-section">
-        <div id="dropdown-container" class="dropdown">
-          <button class="dropbtn">Sorter efter sæson</button>
-          <span class="dropdown-content">
-            <li data-season="spring">Forår</li>
-            <li data-season="summer">Sommer</li>
-            <li data-season="autumn">Efterår</li>
-            <li data-season="winter">Vinter</li>
-            <li data-season="">Alle sæsoner</li>
-          </span>
-        </div>
-        <ul id="list-container">
-            ${animals.map(animal => `
-            <li data-animal-id=${animal.id}>
-                        ${animal.name}, ${animal.latinName}
-            </li>`).join("")}
-        </ul>  
-    </section>
-    <hr> 
-        <aside id="details-container">
-            <h2>${animals[2].name}</h2>
-            <h4>${animals[2].latinName}</h4>
-            <p>${animals[2].description}</p>
-            <audio controls>
-              <source src="/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
-            </audio>
-            <img src="${animals[2].media.find(m => m.isImage).url}" alt=""> 
-        </aside>`
+    <div id="page-container">
+
+        <h1>Øens dyr</h1>
+        <hr>
+        <section id="top-section">
+            <div id="dropdown-container" class="dropdown">
+              <button class="dropbtn">Sorter efter sæson</button>
+              <span class="dropdown-content">
+                <li data-season="spring">Forår</li>
+                <li data-season="summer">Sommer</li>
+                <li data-season="autumn">Efterår</li>
+                <li data-season="winter">Vinter</li>
+                <li data-season="">Alle sæsoner</li>
+              </span>
+            </div>
+            <ul id="list-container">
+                ${animals.map(animal => `
+                <li data-animal-id=${animal.id}>
+                            ${animal.name}, ${animal.latinName}
+                </li>`).join("")}
+            </ul>  
+        </section>
+        <hr> 
+            <aside id="details-container">
+                <h2>${animals[2].name}</h2>
+                <h4>${animals[2].latinName}</h4>
+                <p>${animals[2].description}</p>
+                <audio controls>
+                  <source src="/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
+                </audio>
+                <img src="${animals[2].media.find(m => m.isImage).url}" alt=""> 
+            </aside>
+    </div>`
 
     const pageElement = createElementFromString(htmlStr)
 

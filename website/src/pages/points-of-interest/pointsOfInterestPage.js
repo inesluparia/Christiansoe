@@ -20,6 +20,7 @@ function PointsOfInterestPage(props) {
     }
 
     const pageElement = createElementFromString(`
+    <div id="page-container">
         <h1>Interessepunkter</h1>
         <hr>
             <div class="filter-container">
@@ -91,13 +92,13 @@ function PointsOfInterestPage(props) {
                 </li>
             `).join("")}
         </ul>-->
-    `);
+    </div>`);
 
     const filterSelect = pageElement.querySelector(".filter-select");
     filterSelect.addEventListener("change", () => {
         props.onFilterChange(filterSelect.value);
     });
-    
+
     return pageElement;
 }
 
