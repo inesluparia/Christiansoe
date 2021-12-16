@@ -6,6 +6,19 @@ function MapPage() {
 
     const pageElement = createElementFromString(`
         <div id="map"></div>
+        <div class="bridge-status-wrapper">
+            <div class="bridge-status-beacon">
+                <div class="bridge-status-indicator">
+                
+                </div>
+            </div>
+            <div class="bridge-inner-text">
+                <p><b>BEMÆRKNING</b></p>
+                <p>Broen er åben i efterår, vinter og forår.</p>
+                <p>Det kan forekommer under sommer at den er midlertidig lukket.</p>
+            </div>
+        </div>
+        
     `);
 
     const map = mapService.createMap(pageElement.querySelector("#map"));
