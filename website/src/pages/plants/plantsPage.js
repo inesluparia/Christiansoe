@@ -35,9 +35,6 @@ function PlantsPage(props) {
             <h2>${plants[2].name}</h2>
             <h4>${plants[2].latinName}</h4>
             <p>${plants[2].description}</p>
-            <audio controls>
-              <source src="/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
-            </audio>
             <img src="${plants[2].media.find(m => m.isImage).url}" alt=""> 
         </aside>
     </div>`
