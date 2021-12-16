@@ -6,45 +6,57 @@ mapboxgl.accessToken =
 /**
  * Create a map object inside the specified DOM element.
  *
- * @param {HTMLDivElement} rootElement
- * @returns {mapboxgl.Map}
  * @example
  * const map = createMap(document.querySelector("#map"));
+ *
+ * @param {HTMLDivElement} rootElement
+ * @returns {mapboxgl.Map}
  */
 export function createMap(rootElement) {
     return new mapboxgl.Map({
         container: rootElement, // container ID
         style: "mapbox://styles/mapbox/outdoors-v11", // style URL
-        center: [15.188356982912637, 55.320417209601885], // starting position [lng, lat]
+        center: [15.188356, 55.320417], // starting position [lng, lat]
         zoom: 15.5, // starting zoom
-        // minZoom: 14, // min zoom in
+        minZoom: 14, // min zoom in
     });
 }
 
 /**
+ * Gets a route in the form of an array of coordinates, given at
+ * least two coordinates are provided.
  *
+ * @example
+ * const route = await getRouteFromCoordinates([
+ *    [15.186018, 55.320770],
+ *    [15.188356, 55.320417]
+ * ]);
  *
- * @typedef {Object} Waypoint
- * @property {string} name - The name of the waypoint.
- * @property {mapboxgl.LngLatLike} location - The location of the waypoint} startLocation
- * @property {number} distance - The distance of the waypoint from the start location.
- *
- * @param {mapboxgl.LngLatLike[]} coordinates - The coordinates the route consist of.
- *
- * @returns {Promise<Waypoint>} Returns a promise that resolves to an array of {@link Waypoint}.
+ * @param {[number, number][]} coordinates - The coordinates the route consist of.
+ * @returns {{distance: number, coordinates: [number, number][]}} Returns a promise that resolves to an object with a property with distance of the route in meters, and an array of coordinates.
  */
-export function getRouteFromCoordinates(...coordinates) {
+export function getRouteFromCoordinatesAsync(...coordinates) {
     const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinates.join(";")}`;
     let queryParams = `?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`;
 
     return fetch(url + queryParams)
         .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            return data;
+        })
         .then((route) => route.routes[0].geometry.coordinates)
         .then((coordinates) => {
             return coordinates;
         });
 }
 
+/**
+ * Draws a route on the map, by using the coordinates provided.
+ *
+ * @param {mapboxgl.Map} map The map to draw the route on.
+ * @param {[number, number][]} coordinates The coordinates the route consist of.
+ */
 export function drawRouteOnMap(map, coordinates) {
     map.addLayer({
         id: "route",
@@ -76,6 +88,7 @@ export function drawRouteOnMap(map, coordinates) {
  * Draw a marker on the specified map.
  *
  * @param {mapboxgl.Map} map The map on which to draw the marker.
+ * @param {any} id The id of the marker.
  * @param {mapboxgl.LngLatLike} coordinates The coordinates of the marker.
  */
 export function drawMarkerOnMap(map, id, coordinates) {

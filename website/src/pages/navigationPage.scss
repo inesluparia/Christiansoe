@@ -30,14 +30,24 @@ nav {
         .ferry-info-text {
             display: flex;
             flex-direction: column;
+            white-space: nowrap;
+            animation: pop 1s;
         }
 
-        .ferry-distance {
-
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
-        .ferry-time {
-
+        & + #toggle-nav-menu {
+            margin-left: 0;
         }
     }
 
@@ -45,6 +55,7 @@ nav {
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        margin-left: auto;
         padding: 1rem;
         color: inherit;
         z-index: 20;

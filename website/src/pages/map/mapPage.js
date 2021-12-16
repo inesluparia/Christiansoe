@@ -13,7 +13,7 @@ function MapPage() {
         
         map.resize();
         
-        const waypoints = await mapService.getRouteFromCoordinates(
+        const waypoints = await mapService.getRouteFromCoordinatesAsync(
             [15.1883569, 55.3204172], 
             [15.1928236, 55.3201917]
         );
