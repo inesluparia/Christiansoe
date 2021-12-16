@@ -29,6 +29,11 @@ function MapPage() {
         
     `);
 
+    const bridgeNotice = pageElement.getElementsByClassName("bridge-status-wrapper-close")[0]
+
+    bridgeNotice.addEventListener("click",
+        () => pageElement.getElementsByClassName("bridge-status-wrapper")[0].style.display = "none" )
+
     const map = mapService.createMap(pageElement.querySelector("#map"));
     map.on("load", async (e) => {
 
