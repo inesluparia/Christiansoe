@@ -5,7 +5,9 @@ import "./mapPage.scss";
 function MapPage() {
 
     const pageElement = createElementFromString(`
-        <div id="map"></div>
+        <div id="map">
+        
+        </div>
         <div class="bridge-status-wrapper">
             <div class="bridge-status-beacon">
                 <div class="bridge-status-indicator">
@@ -16,6 +18,12 @@ function MapPage() {
                 <p><b>BEMÆRKNING</b></p>
                 <p>Broen er åben i efterår, vinter og forår.</p>
                 <p>Det kan forekommer under sommer at den er midlertidig lukket.</p>
+            </div>
+            <div class="bridge-status-wrapper-close">
+                    <button class="bridge-close-button">
+                       <div class="bridge-close-line line-1"></div>
+                       <div class="bridge-close-line line-2"></div>
+                   </button>
             </div>
         </div>
         

@@ -17,7 +17,7 @@
 
     & .bridge-status-beacon{
 
-        width: 5px;
+        width: 50px;
 
         & .bridge-status-indicator{
 
@@ -39,6 +39,45 @@
         font-size: 0.8em;
         display: flex;
         flex-direction: column;
+
+    }
+}
+
+.bridge-status-wrapper-close{
+
+    width: 50px;
+    /*background: aliceblue;*/
+
+    & button.bridge-close-button{
+
+        display: flex;
+        width: 30px;
+        height: 30px;
+        /*background: bisque;*/
+        margin: auto;
+
+        & .bridge-close-line{
+
+            position: absolute;
+            width: 25px;
+            height: 2px;
+            background: black;
+            top: 17.2%;
+            left: 91.5%;
+
+        }
+
+        & .line-1{
+
+            transform: rotate(45deg);
+
+        }
+
+        & .line-2{
+
+            transform: rotate(-45deg);
+
+        }
 
     }
 }
