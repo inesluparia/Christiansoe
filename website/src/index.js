@@ -4,7 +4,7 @@ import Navigo from "navigo";
 import {
     injectPageBeforeRender,
     updateInjectedPage,
-    renderInjectedPages,
+    renderInjectedPages
 } from "./utils/utils";
 import PointsOfInterestPage from "./pages/points-of-interest/pointsOfInterestPage";
 import AnimalsPage from "./pages/animals/animalsPage";
@@ -27,21 +27,21 @@ router.hooks({
         injectPageBeforeRender(NavigationPage());
 
         const updatePage = async () => {
-            const location = await locationService.getCurrentLocationAsync();
-            const { distance, duration } = await getRouteFromCoordinatesAsync(
-                [15.186018, 55.320770], // Christiansoe ferry terminal
-                location
-            );
+            // const location = await locationService.getCurrentLocationAsync();
+            // const { distance, duration } = await getRouteFromCoordinatesAsync(
+            //     [15.186018, 55.320770], // Christiansoe ferry terminal
+            //     location
+            // );
 
-            updateInjectedPage(
-                NavigationPage({
-                    estimatedDistance:
-                        locationService.getHumanReadableDistanceFromMeters(distance),
-                    estimatedWalkDuration:
-                        locationService.getHumanReadableDurationFromSeconds(duration),
-                }),
-                rootElement
-            );
+            // updateInjectedPage(
+            //     NavigationPage({
+            //         estimatedDistance:
+            //             locationService.getHumanReadableDistanceFromMeters(distance),
+            //         estimatedWalkDuration:
+            //             locationService.getHumanReadableDurationFromSeconds(duration),
+            //     }),
+            //     rootElement
+            // );
         };
 
         updatePage();

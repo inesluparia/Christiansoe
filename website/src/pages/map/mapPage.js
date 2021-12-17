@@ -34,9 +34,9 @@ function MapPage() {
 
     const map = mapService.createMap(pageElement.querySelector("#map"));
     map.on("load", async (e) => {
-        drawMarkerOnMap(map,"bridge", [15.18588, 55.32044], "yellow")
-
         map.resize();
+        
+        drawMarkerOnMap(map, "bridge", [15.18588, 55.32044], "yellow")
         
         const waypoints = await mapService.getRouteFromCoordinatesAsync(
             [15.1883569, 55.3204172], 

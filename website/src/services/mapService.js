@@ -28,7 +28,7 @@ export function createMap(rootElement) {
  * least two coordinates are provided.
  *
  * @example
- * const route = await getRouteFromCoordinates([
+ * const route = await getRouteFromCoordinatesAsync([
  *    [15.186018, 55.320770],
  *    [15.188356, 55.320417]
  * ]);
@@ -41,9 +41,9 @@ export function getRouteFromCoordinatesAsync(...coordinates) {
     let queryParams = `?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`;
 
     return fetch(url + queryParams)
-        .then((response) => response.json())
-        .then((data) => data.routes[0])
-        .then((route) => {
+        .then(response => response.json())
+        .then(data => data.routes[0])
+        .then(route => {
             return {
                 distance: route.distance,
                 duration: route.duration,
@@ -90,7 +90,7 @@ export function drawRouteOnMap(map, coordinates) {
  *
  * @param {mapboxgl.Map} map The map on which to draw the marker.
  * @param {*} id The id of the marker.
- * @param {mapboxgl.LngLatLike} coordinates The coordinates of the marker.
+ * @param {[number, number]} coordinates The coordinates of the marker.
  * @param color The color of the marker e.g. #ff0000
  */
 export function drawMarkerOnMap(map, id, coordinates, color) {
