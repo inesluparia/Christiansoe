@@ -88,7 +88,7 @@ export function drawRouteOnMap(map, coordinates) {
  * Draw a marker on the specified map.
  *
  * @param {mapboxgl.Map} map The map on which to draw the marker.
- * @param {any} id The id of the marker.
+ * @param {*} id The id of the marker.
  * @param {mapboxgl.LngLatLike} coordinates The coordinates of the marker.
  */
 export function drawMarkerOnMap(map, id, coordinates) {
