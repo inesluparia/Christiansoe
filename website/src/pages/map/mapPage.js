@@ -1,4 +1,4 @@
-import { createElementFromString } from "../../utils/utils";
+import {createElementFromString} from "../../utils/utils";
 import * as mapService from "../../services/mapService";
 import "./mapPage.scss";
 
@@ -32,10 +32,31 @@ function MapPage() {
     const bridgeNotice = pageElement.getElementsByClassName("bridge-status-wrapper-close")[0]
 
     bridgeNotice.addEventListener("click",
-        () => pageElement.getElementsByClassName("bridge-status-wrapper")[0].style.display = "none" )
+        () => pageElement.getElementsByClassName("bridge-status-wrapper")[0].style.display = "none")
 
     const map = mapService.createMap(pageElement.querySelector("#map"));
     map.on("load", async (e) => {
+        map.addLayer({
+            id: 'bridge', type: 'circle',
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: [
+                        {
+                            type: 'Feature',
+                            properties: {},
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [15.18588, 55.32044]
+                            }
+                        }
+                    ]
+                }
+            }, paint: {
+                'circle-radius': 7, 'circle-color': 'yellow', 'circle-opacity': 1
+            }
+        })
 
         map.resize();
 

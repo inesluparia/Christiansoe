@@ -44,6 +44,9 @@ export function getRouteFromCoordinates(...coordinates) {
             return coordinates;
         });
 }
+let color = "#03AA46";
+
+
 
 export function drawRouteOnMap(map, coordinates) {
     map.addLayer({
