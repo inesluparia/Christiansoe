@@ -91,8 +91,9 @@ export function drawRouteOnMap(map, coordinates) {
  * @param {mapboxgl.Map} map The map on which to draw the marker.
  * @param {*} id The id of the marker.
  * @param {mapboxgl.LngLatLike} coordinates The coordinates of the marker.
+ * @param color The color of the marker e.g. #ff0000
  */
-export function drawMarkerOnMap(map, id, coordinates) {
+export function drawMarkerOnMap(map, id, coordinates, color) {
     map.addLayer({
         id,
         type: "circle",
@@ -114,144 +115,8 @@ export function drawMarkerOnMap(map, id, coordinates) {
         },
         paint: {
             "circle-radius": 8,
-            "circle-color": "#f30",
+            "circle-color": color ? color: "blue",
             "circle-opacity": 1,
         },
     });
 }
-
-// navigator.geolocation.getCurrentPosition(getFerryDistance);
-
-// async function getFerryDistance(userLocation) {
-//     let userLongitude = userLocation.coords.longitude;
-//     let userLatitude = userLocation.coords.latitude;
-
-//     const query = await fetch(
-//         `https://api.mapbox.com/directions/v5/mapbox/walking/${start};${userLongitude},${userLatitude}?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`,
-//         { method: "GET" }
-//     );
-
-//     const json = await query.json();
-//     const data = json.routes[0];
-
-//     const rawDistance = data.distance;
-
-//     let tripDuration = Math.floor(data.duration / 60) + " min. 🚶‍♂";
-//     let tripDistance = trimmingDistance(rawDistance);
-
-//     console.log(tripDuration);
-//     console.log(tripDistance);
-
-//     const ferryEta = document.getElementById("ferry-eta");
-//     ferryEta.innerHTML =
-//         "<strong>Christansø Færgeterminal </strong>" +
-//         tripDuration +
-//         tripDistance;
-// }
-
-// map.on("click", (event) => {
-//     const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
-
-//     const end = {
-//         type: "FeatureCollection",
-//         features: [
-//             {
-//                 type: "Feature",
-//                 properties: {},
-//                 geometry: {
-//                     type: "Point",
-//                     coordinates: coords,
-//                 },
-//             },
-//         ],
-//     };
-
-//     if (map.getLayer("end")) {
-//         map.getSource("end").setData(end);
-//     } else {
-//         map.addLayer({
-//             id: "end",
-//             type: "circle",
-//             source: {
-//                 type: "geojson",
-//                 data: {
-//                     type: "FeatureCollection",
-//                     features: [
-//                         {
-//                             type: "Feature",
-//                             properties: {},
-//                             geometry: {
-//                                 type: "Point",
-//                                 coordinates: coords,
-//                             },
-//                         },
-//                     ],
-//                 },
-//             },
-//             paint: {
-//                 "circle-radius": 10,
-//                 "circle-color": "#f30",
-//                 "circle-opacity": 1,
-//             },
-//         });
-//     }
-//     getRoute(coords);
-// });
-
-// export async function getRouteBetweenLocations(...locations) {
-//     let firstPartUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${
-//         locations[locations[0]]
-//     };`;
-//     let secondPartUrl = `${
-//         location[locations.length - 1]
-//     }?steps=true&geometries=geojson&walking_speed=1.1&access_token=${
-//         mapboxgl.accessToken
-//     }`;
-
-//     const query = await fetch(firstPartUrl + secondPartUrl, { method: "GET" });
-
-//     const json = await query.json();
-//     const data = json.routes[0];
-//     const route = data.geometry.coordinates;
-//     const geojson = {
-//         type: "Feature",
-//         properties: {},
-//         geometry: {
-//             type: "LineString",
-//             coordinates: route,
-//         },
-//     };
-//     // if the route already exists on the map, we'll reset it using setData
-//     if (map.getSource("route")) {
-//         map.getSource("route").setData(geojson);
-//     }
-//     // otherwise, we'll make a new request
-//     else {
-//         map.addLayer({
-//             id: "route",
-//             type: "line",
-//             source: {
-//                 type: "geojson",
-//                 data: geojson,
-//             },
-//             layout: {
-//                 "line-join": "round",
-//                 "line-cap": "round",
-//             },
-//             paint: {
-//                 "line-color": "#3887be",
-//                 "line-width": 5,
-//                 "line-opacity": 0.75,
-//             },
-//         });
-//     }
-//     const routeInfo = document.getElementById("estimates");
-
-//     const rawDistance = data.distance;
-
-//     routeInfo.innerHTML = `<p><strong>Trip duration:</strong> ${Math.floor(
-//         data.duration / 60
-//     )} min 🚶‍♂ </p><p><strong>Trip distance:</strong> ${trimmingDistance(
-//         rawDistance
-//     )}</p>`;
-// }

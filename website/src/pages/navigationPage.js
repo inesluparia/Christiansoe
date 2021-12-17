@@ -23,6 +23,9 @@ function NavigationPage(props) {
                 <li>
                     <a href="/plants" data-navigo>Planter</a>
                 </li>
+                <li>
+                    <a href="/routes" data-navigo>Ruter</a>
+                </li>
             </ul>
             ${props ? `
                 <div class="ferry-info">
@@ -51,7 +54,7 @@ function NavigationPage(props) {
     toggleNavMenuButton.addEventListener("click", () => {
         pageElement.querySelector("nav").classList.toggle("expanded");
     });
-    
+
     return pageElement;
 }
 

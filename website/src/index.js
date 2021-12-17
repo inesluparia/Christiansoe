@@ -49,7 +49,7 @@ router.hooks({
         setInterval(updatePage, 1000 * 60);
         
         done();
-    },
+    }
 });
 
 router.on({
