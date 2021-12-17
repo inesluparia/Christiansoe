@@ -2,7 +2,6 @@ import "./navigationPage.scss";
 import { createElementFromString } from "../utils/utils";
 
 function NavigationPage(props) {
-    console.log("props", props);
     const pageElement = createElementFromString(`
         <nav>
             <ul>
@@ -46,7 +45,7 @@ function NavigationPage(props) {
                 </svg>
             </button>
         </nav>
-    `, "navigation-page");
+    `, "navigation-page"); // Custom id for the outer page element.
 
     const toggleNavMenuButton = pageElement.querySelector("#toggle-nav-menu");
     toggleNavMenuButton.addEventListener("click", () => {

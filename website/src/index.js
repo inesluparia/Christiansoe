@@ -27,7 +27,6 @@ router.hooks({
         injectPageBeforeRender(NavigationPage());
 
         const updatePage = async () => {
-            console.log("updatePage");
             const location = await locationService.getCurrentLocationAsync();
             const { distance, duration } = await getRouteFromCoordinatesAsync(
                 [15.186018, 55.320770], // Christiansoe ferry terminal
@@ -43,9 +42,6 @@ router.hooks({
                 }),
                 rootElement
             );
-
-            console.log("distance: ", distance);
-            console.log("duration: ", duration);
         };
 
         updatePage();
