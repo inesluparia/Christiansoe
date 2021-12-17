@@ -33,7 +33,7 @@ export function createMap(rootElement) {
  *
  * @returns {Promise<Waypoint>} Returns a promise that resolves to an array of {@link Waypoint}.
  */
-export function getRouteFromCoordinates(...coordinates) {
+export function getRouteFromCoordinates(coordinates) {
     const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinates.join(";")}`;
     let queryParams = `?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`;
 

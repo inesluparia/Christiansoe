@@ -61,17 +61,22 @@ function RoutesPage(props) {
         const coordinates = route.pointsOfInterest.map((point)=> {
             const lat = point.location.latitude
             const long = point.location.longitude
-            return [{lat}, {long}]
+            let cord = [long, lat];
+
+            mapService.drawMarkerOnMap(map, cord.toString(), cord,"red")
+
+            return [long,lat]
         })
         // so far so good? is an array of two doubles objects the right format for coordinates???
         console.log(coordinates)
         await loadRoute(coordinates)
     });
 
-    async function loadRoute (...coords) {
+    async function loadRoute (coordinates) {
         map.resize();
         const waypoints = await mapService.getRouteFromCoordinates(
-            [15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
+            //[15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
+            coordinates
         );
         mapService.drawRouteOnMap(map, waypoints);
     }

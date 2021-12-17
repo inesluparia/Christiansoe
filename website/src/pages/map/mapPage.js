@@ -44,7 +44,6 @@ function MapPage() {
         const waypoints = await mapService.getRouteFromCoordinates(
             [15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
         );
-
         mapService.drawRouteOnMap(map, waypoints);
     });
 
