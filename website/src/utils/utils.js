@@ -30,7 +30,7 @@ export function injectPageBeforeRender(pageElement) {
  * Rerenders an already injected page element.
  * 
  * @param {HTMLDivElement} pageElement The page element to update.
- * @param {*} rootElement The root element where the page element should be rendered.
+ * @param {HTMLElement} rootElement The root element where the page element should be rendered.
  */
 export function updateInjectedPage(pageElement, rootElement) {
     // Find the injected page element in the root element.

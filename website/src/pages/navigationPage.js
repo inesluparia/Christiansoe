@@ -28,7 +28,7 @@ function NavigationPage(props) {
                 <div class="ferry-info">
                     <span class="ferry-info-text">Tid og afstand til færgeterminalen</span>
                     <div class="ferry-info-data">
-                        <time class="ferry-time" datetime="PT0H4M">${props.estimatedWalkDuration}</time>
+                        <time class="ferry-time">${props.estimatedWalkDuration}</time>
                         <span class="ferry-distance">${props.estimatedDistance}</span>
                     </div>
                 </div>
