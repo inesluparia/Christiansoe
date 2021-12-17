@@ -59,20 +59,16 @@ function RoutesPage(props) {
             return [long, lat]
         })
         console.log(coordinates)
-        const coord2 = [[15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]]
 
         if (map.getLayer('route')) {
             map.removeLayer('route')
             map.removeSource('route')
         }
-
         loadRoute(coordinates)
-
     })
 
     async function loadRoute (coordinates) {
-        //map.resize();
-        const waypoints = await getRouteFromCoordinates(
+    const waypoints = await getRouteFromCoordinates(
             coordinates
             //[15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
         );

@@ -1,5 +1,4 @@
 package com.example.demo.services;
-
 import com.example.demo.entities.Species;
 import com.example.demo.repositories.SpeciesRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +43,7 @@ class SpeciesServiceTest {
         assertTrue(service.getAnimalsBySeason("winter").contains(animal1));
         assertEquals(4, service.getAnimalsBySeason("summer").size());
         assertFalse(service.getAnimalsBySeason("summer").isEmpty());
-        assertThrows(RuntimeException.class , () -> service.getAnimalsBySeason("x"));
+        assertThrows(RuntimeException.class, () -> service.getAnimalsBySeason("x"));
 
     }
 }
