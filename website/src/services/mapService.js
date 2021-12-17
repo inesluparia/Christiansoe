@@ -44,9 +44,6 @@ export function getRouteFromCoordinates(...coordinates) {
             return coordinates;
         });
 }
-let color = "#03AA46";
-
-
 
 export function drawRouteOnMap(map, coordinates) {
     map.addLayer({
@@ -81,7 +78,7 @@ export function drawRouteOnMap(map, coordinates) {
  * @param {mapboxgl.Map} map The map on which to draw the marker.
  * @param {mapboxgl.LngLatLike} coordinates The coordinates of the marker.
  */
-export function drawMarkerOnMap(map, id, coordinates) {
+export function drawMarkerOnMap(map, id, coordinates, color) {
     map.addLayer({
         id,
         type: "circle",
@@ -103,7 +100,7 @@ export function drawMarkerOnMap(map, id, coordinates) {
         },
         paint: {
             "circle-radius": 8,
-            "circle-color": "#f30",
+            "circle-color": color,
             "circle-opacity": 1,
         },
     });

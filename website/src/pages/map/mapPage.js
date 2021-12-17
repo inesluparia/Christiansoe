@@ -1,6 +1,7 @@
 import {createElementFromString} from "../../utils/utils";
 import * as mapService from "../../services/mapService";
 import "./mapPage.scss";
+import {drawMarkerOnMap} from "../../services/mapService";
 
 function MapPage() {
 
@@ -36,27 +37,7 @@ function MapPage() {
 
     const map = mapService.createMap(pageElement.querySelector("#map"));
     map.on("load", async (e) => {
-        map.addLayer({
-            id: 'bridge', type: 'circle',
-            source: {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: [
-                        {
-                            type: 'Feature',
-                            properties: {},
-                            geometry: {
-                                type: 'Point',
-                                coordinates: [15.18588, 55.32044]
-                            }
-                        }
-                    ]
-                }
-            }, paint: {
-                'circle-radius': 7, 'circle-color': 'yellow', 'circle-opacity': 1
-            }
-        })
+        drawMarkerOnMap(map,"bridge", [15.18588, 55.32044], "yellow")
 
         map.resize();
 
