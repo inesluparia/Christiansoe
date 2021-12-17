@@ -77,6 +77,8 @@ export function drawRouteOnMap(map, coordinates) {
  *
  * @param {mapboxgl.Map} map The map on which to draw the marker.
  * @param {mapboxgl.LngLatLike} coordinates The coordinates of the marker.
+ * @param id Unique id for the geojson object
+ * @param color color of waypoint layer
  */
 export function drawMarkerOnMap(map, id, coordinates, color) {
     map.addLayer({
@@ -100,7 +102,7 @@ export function drawMarkerOnMap(map, id, coordinates, color) {
         },
         paint: {
             "circle-radius": 8,
-            "circle-color": color,
+            "circle-color": color ? color: "blue",
             "circle-opacity": 1,
         },
     });
