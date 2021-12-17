@@ -33,7 +33,7 @@ export function createMap(rootElement) {
  *
  * @returns {Promise<Waypoint>} Returns a promise that resolves to an array of {@link Waypoint}.
  */
-export function getRouteFromCoordinates(...coordinates) {
+export function getRouteFromCoordinates(coordinates) {
     const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinates.join(";")}`;
     let queryParams = `?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`;
 
@@ -77,8 +77,10 @@ export function drawRouteOnMap(map, coordinates) {
  *
  * @param {mapboxgl.Map} map The map on which to draw the marker.
  * @param {mapboxgl.LngLatLike} coordinates The coordinates of the marker.
+ * @param id Unique id for the geojson object
+ * @param color color of waypoint layer
  */
-export function drawMarkerOnMap(map, id, coordinates) {
+export function drawMarkerOnMap(map, id, coordinates, color) {
     map.addLayer({
         id,
         type: "circle",
@@ -100,7 +102,7 @@ export function drawMarkerOnMap(map, id, coordinates) {
         },
         paint: {
             "circle-radius": 8,
-            "circle-color": "#f30",
+            "circle-color": color ? color: "blue",
             "circle-opacity": 1,
         },
     });
