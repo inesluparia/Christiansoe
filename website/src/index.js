@@ -1,7 +1,11 @@
 import "./style.scss";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Navigo from "navigo";
-import { injectPageBeforeRender, updateInjectedPage, renderInjectedPages } from "./utils/utils";
+import {
+    injectPageBeforeRender,
+    updateInjectedPage,
+    renderInjectedPages,
+} from "./utils/utils";
 import PointsOfInterestPage from "./pages/points-of-interest/pointsOfInterestPage";
 import AnimalsPage from "./pages/animals/animalsPage";
 import PlantsPage from "./pages/plants/plantsPage";
@@ -19,22 +23,37 @@ const rootElement = document.getElementById("root");
 
 router.hooks({
     async before(done) {
-        setInterval(async () => {
-            const location = await locationService.getCurrentLocationAsync();
-            const { distance } = await getRouteFromCoordinatesAsync(
-                [15.186018, 55.320770], // Christiansoe ferry terminal
-                location
-            );
-            updateInjectedPage(NavigationPage({
-                estimatedDistance: locationService.getHumanReadableDistance(distance),
-                estimatedWalkDuration: locationService.getHumanReadableDuration(new Date().getTime())
-            }), rootElement);
-        }, 1000 * 3);
 
         injectPageBeforeRender(NavigationPage());
 
+        const updatePage = async () => {
+            console.log("updatePage");
+            const location = await locationService.getCurrentLocationAsync();
+            const { distance, duration } = await getRouteFromCoordinatesAsync(
+                [15.186018, 55.320770], // Christiansoe ferry terminal
+                location
+            );
+
+            updateInjectedPage(
+                NavigationPage({
+                    estimatedDistance:
+                        locationService.getHumanReadableDistanceFromMeters(distance),
+                    estimatedWalkDuration:
+                        locationService.getHumanReadableDurationFromSeconds(duration),
+                }),
+                rootElement
+            );
+
+            console.log("distance: ", distance);
+            console.log("duration: ", duration);
+        };
+
+        updatePage();
+
+        setInterval(updatePage, 1000 * 60);
+        
         done();
-    }
+    },
 });
 
 router.on({
@@ -60,17 +79,19 @@ router.on({
     },
     "/points-of-interest": async () => {
         const pointsOfInterest = await pointsOfInterestService.findAll();
-        
+
         const onFilterChange = (sortBy) => {};
 
-        injectPageBeforeRender(PointsOfInterestPage({ 
-            pointsOfInterest, 
-            onFilterChange, 
-            sortBy: "name"
-        }));
+        injectPageBeforeRender(
+            PointsOfInterestPage({
+                pointsOfInterest,
+                onFilterChange,
+                sortBy: "name",
+            })
+        );
 
         renderInjectedPages(rootElement);
-    }
+    },
 })
 .notFound(() => {
     alert("Not found!");

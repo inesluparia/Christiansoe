@@ -14,11 +14,11 @@ mapboxgl.accessToken =
  */
 export function createMap(rootElement) {
     return new mapboxgl.Map({
-        container: rootElement, // container ID
-        style: "mapbox://styles/mapbox/outdoors-v11", // style URL
-        center: [15.188356, 55.320417], // starting position [lng, lat]
-        zoom: 15.5, // starting zoom
-        minZoom: 14, // min zoom in
+        container: rootElement,
+        style: "mapbox://styles/mapbox/outdoors-v11",
+        center: [15.188356, 55.320417],
+        zoom: 15.5,
+        minZoom: 14,
     });
 }
 
@@ -33,7 +33,7 @@ export function createMap(rootElement) {
  * ]);
  *
  * @param {[number, number][]} coordinates - The coordinates the route consist of.
- * @returns {{distance: number, coordinates: [number, number][]}} Returns a promise that resolves to an object with a property with distance of the route in meters, and an array of coordinates.
+ * @returns {{distance: number, duration: number, coordinates: [number, number][]}} Returns a promise that resolves to an object with a property with distance of the route in meters, and an array of coordinates.
  */
 export function getRouteFromCoordinatesAsync(...coordinates) {
     const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinates.join(";")}`;
@@ -41,13 +41,13 @@ export function getRouteFromCoordinatesAsync(...coordinates) {
 
     return fetch(url + queryParams)
         .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            return data;
-        })
-        .then((route) => route.routes[0].geometry.coordinates)
-        .then((coordinates) => {
-            return coordinates;
+        .then((data) => data.routes[0])
+        .then((route) => {
+            return {
+                distance: route.distance,
+                duration: route.duration,
+                coordinates: route.geometry.coordinates,
+            };
         });
 }
 

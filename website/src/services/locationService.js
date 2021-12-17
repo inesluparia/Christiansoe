@@ -22,8 +22,6 @@ export const locationService = {
         
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const d = R * c; // Distance in meters.
-
-        // console.log(typeof d);
         
         return d;
     },
@@ -62,26 +60,34 @@ export const locationService = {
     /**
      * Formats the distance to a human readable format.
      * 
-     * @param {number} distance The distance in meters.
+     * @param {number} distanceInMeters The distance in meters.
      * @returns {string} The distance in a human readable format.
      */
-    getHumanReadableDistance(distance) {
-        const distanceInKilometers = distance / 1000;
+    getHumanReadableDistanceFromMeters(distanceInMeters) {
+        const distanceInKilometers = distanceInMeters / 1000;
         return distanceInKilometers > 1 ? 
-            `${distanceInKilometers} km` :
-            `${distance} m`;
+            `${distanceInKilometers.toFixed(1)} km` :
+            `${distanceInMeters.toFixed(0)} m`;
     },
     /**
      * Formats the duration to a human readable format.
      * 
-     * @param {number} duration The duration in milliseconds.
+     * @param {number} durationInSeconds The duration in seconds.
      * @returns {string} The duration in a human readable format.
      */
-    getHumanReadableDuration(duration) {
-        const durationInSeconds = duration / 1000;
+    getHumanReadableDurationFromSeconds(durationInSeconds) {
         const durationInMinutes = durationInSeconds / 60;
-        return durationInMinutes > 1 ?
-            `${durationInMinutes.toFixed(1)} min` :
-            `${durationInSeconds.toFixed(0)} s`;
+        const durationInHours = durationInMinutes / 60;
+        const durationInDays = durationInHours / 24;
+
+        if (durationInDays > 1) {
+            return `${durationInDays.toFixed(0)} dage`;
+        } else if (durationInHours > 1) {
+            return `${durationInHours.toFixed(0)} timer`;
+        } else if (durationInMinutes > 1) {
+            return `${durationInMinutes.toFixed(0)} min`;
+        } else {
+            return "< 1 min";
+        }
     }
 };

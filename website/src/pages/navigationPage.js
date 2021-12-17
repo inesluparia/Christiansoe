@@ -2,6 +2,7 @@ import "./navigationPage.scss";
 import { createElementFromString } from "../utils/utils";
 
 function NavigationPage(props) {
+    console.log("props", props);
     const pageElement = createElementFromString(`
         <nav>
             <ul>
@@ -26,10 +27,10 @@ function NavigationPage(props) {
             </ul>
             ${props ? `
                 <div class="ferry-info">
-                    <span>Tid og afstand til færgeterminalen</span>
-                    <div class="ferry-info-text">
-                        <span class="ferry-distance">${props.estimatedDistance}</span>
+                    <span class="ferry-info-text">Tid og afstand til færgeterminalen</span>
+                    <div class="ferry-info-data">
                         <time class="ferry-time" datetime="PT0H4M">${props.estimatedWalkDuration}</time>
+                        <span class="ferry-distance">${props.estimatedDistance}</span>
                     </div>
                 </div>
             ` : ""}

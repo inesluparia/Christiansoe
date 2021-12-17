@@ -24,10 +24,16 @@ nav {
         padding: 0.5rem;
         margin-left: auto;
         z-index: 20;
+        flex: 0;
+        gap: 1.5rem;
 
         // background-color: darkseagreen;
 
         .ferry-info-text {
+            font-size: 0.85rem;
+        }
+
+        .ferry-info-data {
             display: flex;
             flex-direction: column;
             white-space: nowrap;

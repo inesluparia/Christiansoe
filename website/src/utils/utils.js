@@ -16,13 +16,16 @@ export function injectPageBeforeRender(pageElement) {
 
 export function updateInjectedPage(pageElement, rootElement) {
     // Find the injected page element in the root element.
-    const injectedPageElement = injectedPageElements
-        .find(p => p.id === pageElement.id);
+    const indexOfInjectedPageElement = injectedPageElements
+        .findIndex(p => p.id === pageElement.id);
     
-    if (injectedPageElement) {
+    if (indexOfInjectedPageElement !== -1) {
+
         // Replace the injected page element with the new one.
-        rootElement.querySelector(`#${injectedPageElement.id}`)
-            .replaceWith(pageElement);
+        injectedPageElements[indexOfInjectedPageElement] = pageElement;
+        
+        rootElement.querySelector(`#${pageElement.id}`)
+            ?.replaceWith(pageElement);
     }
 }
 
