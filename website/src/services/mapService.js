@@ -17,8 +17,9 @@ export function createMap(rootElement) {
         container: rootElement,
         style: "mapbox://styles/mapbox/outdoors-v11",
         center: [15.188356, 55.320417],
-        zoom: 15.5,
+        pitchWithRotate: false,
         minZoom: 14,
+        zoom: 15.5,
     });
 }
 
