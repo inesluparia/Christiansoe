@@ -17,7 +17,7 @@ export function createMap(rootElement) {
         style: "mapbox://styles/mapbox/outdoors-v11", // style URL
         center: [15.188356982912637, 55.320417209601885], // starting position [lng, lat]
         zoom: 15.5, // starting zoom
-        // minZoom: 14, // min zoom in
+        minZoom: 14 // min zoom in
     });
 }
 

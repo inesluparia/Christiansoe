@@ -12,7 +12,5 @@ public interface SpeciesRepository extends JpaRepository<Species, String> {
     //Instead of filtering by query - because we know there are not so many species on the island
     // it's better to first get all animals and THEN filter them in the frontend with js
     //or in a service layer if we end up having one...
-    List<Species> findSpeciesByDiscoverableWinterIsTrueAndIsAnimalIsTrue();
-
-
+    //List<Species> findSpeciesByDiscoverableWinterIsTrueAndIsAnimalIsTrue();
 }
