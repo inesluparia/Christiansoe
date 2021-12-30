@@ -9,36 +9,35 @@ function PlantsPage(props) {
     let plants = props.plants
 
     const htmlStr = `
-    <h1>Øens planter</h1>
-    <hr>
-    <section id="top-section">
-        <div id="dropdown-container" class="dropdown">
-          <button class="dropbtn">Sorter efter sæson</button>
-          <span class="dropdown-content">
-            <li data-season="spring">Forår</li>
-            <li data-season="summer">Sommer</li>
-            <li data-season="autumn">Efterår</li>
-            <li data-season="winter">Vinter</li>
-            <li data-season="">Alle sæsoner</li>
-          </span>
-        </div>
-        <ul id="list-container">
-            ${plants.map(plant => `
-            <li data-plant-id=${plant.id}>
-                        ${plant.name}, ${plant.latinName}
-            </li>`).join("")}
-        </ul>  
-    </section>
-    <hr> 
+    <div id="page-container">
+        <h1>Øens planter</h1>
+        <hr>
+        <section id="top-section">
+            <div id="dropdown-container" class="dropdown">
+              <button class="dropbtn">Sorter efter sæson</button>
+              <span class="dropdown-content">
+                <li data-season="spring">Forår</li>
+                <li data-season="summer">Sommer</li>
+                <li data-season="autumn">Efterår</li>
+                <li data-season="winter">Vinter</li>
+                <li data-season="">Alle sæsoner</li>
+              </span>
+            </div>
+            <ul id="list-container">
+                ${plants.map(plant => `
+                <li data-plant-id=${plant.id}>
+                            ${plant.name}, ${plant.latinName}
+                </li>`).join("")}
+            </ul>  
+        </section>
+        <hr> 
         <aside id="details-container">
             <h2>${plants[2].name}</h2>
             <h4>${plants[2].latinName}</h4>
             <p>${plants[2].description}</p>
-            <audio controls>
-              <source src="/sounds/Cyanistes caeruleus.mp3" type="audio/mpeg">
-            </audio>
             <img src="${plants[2].media.find(m => m.isImage).url}" alt=""> 
-        </aside>`
+        </aside>
+    </div>`
 
     const pageElement = createElementFromString(htmlStr)
 

@@ -2,16 +2,21 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 3rem;
 
   section {
-    width: 50%;
-    margin-right: auto;
-    margin-left: auto;
+    width: 500px  ;
   }
 }
 
+.map-container {
+  padding: 2rem;
+  width: 450px;
+  height: 600px;
+}
+
 #route-container {
-  margin: 2rem;
+  margin-bottom: 2rem;
 
     li {
       padding: 1rem;
@@ -71,5 +76,8 @@ summary:before {
 details[open] > summary:before {
   transform: rotate(90deg);
 }
+ #page-container{
+   margin: 6rem 14rem;
+ }
 
 

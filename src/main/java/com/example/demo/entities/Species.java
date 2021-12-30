@@ -38,6 +38,20 @@ public class Species {
     private List<PointOfInterest> pointsOfInterest;
 
     protected Species() { }
+    public Species(String name, String latinName, String description,
+                   boolean isAnimal, boolean discoverableWinter,
+                   boolean discoverableSummer, boolean discoverableSpring,
+                   boolean discoverableAutumn) {
+
+        this.name = name;
+        this.latinName = latinName;
+        this.description = description;
+        this.isAnimal = isAnimal;
+        this.discoverableWinter = discoverableWinter;
+        this.discoverableSummer = discoverableSummer;
+        this.discoverableSpring = discoverableSpring;
+        this.discoverableAutumn = discoverableAutumn;
+    }
 
     public Species(String name, String latinName, String description,
                    boolean isAnimal, boolean discoverableWinter,

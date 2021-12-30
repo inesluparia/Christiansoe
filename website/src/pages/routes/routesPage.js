@@ -49,21 +49,18 @@ function RoutesPage(props) {
         const route = await routesService.findById(id);
 
         console.log(route.pointsOfInterest[0].name);
-
-        const coordinates = route.pointsOfInterest.map((point) => {
-            const lat = point.location.latitude;
-            const long = point.location.longitude;
-            let cord = [long, lat];
-
-            mapService.drawMarkerOnMap(map, cord.toString(), cord, "red");
-
-            return [long, lat];
-        });
+      
+        const coordinates = route.pointsOfInterest.map((point)=> {
+            const lat = point.location.latitude
+            const long = point.location.longitude
+            return [{lat}, {long}]
+        })
+        
         // so far so good? is an array of two doubles objects the right format for coordinates???
         console.log(coordinates);
         await loadRoute(coordinates);
     });
-
+  
     async function loadRoute(coordinates) {
         map.resize();
         const waypoints = await mapService.getRouteFromCoordinatesAsync(

@@ -41,7 +41,7 @@ private SpeciesRepository speciesRepository;
                 return species.stream().filter(Species::isDiscoverableAutumn).collect(Collectors.toList());
             }
             default:
-                return null;
+                throw new RuntimeException("Invalid path variable invoking filterBySeason in SpeciesService");
         }
     }
 
