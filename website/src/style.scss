@@ -29,7 +29,7 @@
 
     // Borders & Shadows
 
-    --color-border: hsl(32, 76%, 76%);
+    --color-border: hsl(12, 20%, 95.1%);
 
     --border-radius: 0.5rem;
     --border-radius-lg: 1rem;
@@ -60,6 +60,12 @@ body {
 
 #root {
     margin-top: 4rem;
+}
+
+#page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.25rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
