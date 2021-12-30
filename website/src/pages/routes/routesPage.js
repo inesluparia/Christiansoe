@@ -1,14 +1,18 @@
 import {createElementFromString} from "../../utils/utils"
 import "./routesPage.scss"
-import {createMap, drawRouteOnMap, getRouteFromCoordinates} from "../../services/mapService";
+import {
+    createMap,
+    drawRouteOnMap,
+    getRouteFromCoordinates,
+    getRouteFromStartAndEndLocation
+} from "../../services/mapService";
 import {routesService} from "../../services/routesService";
-
+import * as mapService from "../../services/mapService";
 export default RoutesPage
 
 function RoutesPage(props) {
 
     const pageElement = createElementFromString(`
-    <div id="page-container">
     <h1>Øens ruter</h1>
     <hr>
     <div id="flex-container">
@@ -38,9 +42,9 @@ function RoutesPage(props) {
                 `).join("")}
             </span>
         </section>  
-        <section class="map-container" style="width: 800px; height:800px"></section>
+        <section class="map-container"></section>
     </div>
-    </div>
+  
     `)
 
     let mapElement = pageElement.querySelector(".map-container")
@@ -51,28 +55,25 @@ function RoutesPage(props) {
     list.addEventListener("click", async (event) => {
         const id = event.target.dataset.id
         const route = await routesService.findById(id)
-        //console.log(route.pointsOfInterest[0].name)
 
-        const coordinates = await route.pointsOfInterest.map((point)=> {
+        console.log(route.pointsOfInterest[0].name)
+
+        const coordinates = route.pointsOfInterest.map((point)=> {
             const lat = point.location.latitude
             const long = point.location.longitude
-            return [long, lat]
+            return [{lat}, {long}]
         })
+        // so far so good? is an array of two doubles objects the right format for coordinates???
         console.log(coordinates)
+        await loadRoute(coordinates)
+    });
 
-        if (map.getLayer('route')) {
-            map.removeLayer('route')
-            map.removeSource('route')
-        }
-        loadRoute(coordinates)
-    })
-
-    async function loadRoute (coordinates) {
-    const waypoints = await getRouteFromCoordinates(
-            coordinates
-            //[15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
+    async function loadRoute (...coords) {
+        map.resize();
+        const waypoints = await mapService.getRouteFromCoordinates(
+            [15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
         );
-        drawRouteOnMap(map, waypoints);
+        mapService.drawRouteOnMap(map, waypoints);
     }
     return pageElement
 }
