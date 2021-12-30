@@ -66,7 +66,7 @@ function RoutesPage(props) {
         const waypoints = await mapService.getRouteFromCoordinatesAsync(
             //[15.188356982912637, 55.320417209601885], [15.1928236, 55.3201917]
             ...coordinates
-        );
+        ).coordinates;
         mapService.drawRouteOnMap(map, waypoints);
     }
     return pageElement;

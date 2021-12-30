@@ -74,9 +74,33 @@ router.on({
         renderInjectedPages(rootElement);
     },
     "/points-of-interest": async () => {
-        const pointsOfInterest = await pointsOfInterestService.findAll();
+        let pointsOfInterest = await pointsOfInterestService.findAll();
 
-        const onFilterChange = (sortBy) => {};
+        const onFilterChange = async (sortBy) => {
+            if (sortBy === "distance") {
+                const currentLocation = await locationService.getCurrentLocationAsync();
+                pointsOfInterest = pointsOfInterest.map(p => {
+                    p.distance = locationService.getDistanceBetween(
+                        [p.location.longitude, p.location.latitude],
+                        currentLocation
+                    );
+                    return p;
+                }).sort((a, b) => a.distance - b.distance);
+            } else if (sortBy === "name") {
+                pointsOfInterest.sort((a, b) => {
+                    return a.name.localeCompare(b.name);
+                });
+            }
+
+            updateInjectedPage(
+                PointsOfInterestPage({
+                    pointsOfInterest,
+                    onFilterChange,
+                    sortBy: sortBy,
+                }),
+                rootElement
+            );
+        };
 
         injectPageBeforeRender(
             PointsOfInterestPage({

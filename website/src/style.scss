@@ -150,7 +150,6 @@ label {
     position: relative;
 
     select {
-        appearance: none;
         background-color: inherit;
         border: none;
         border-radius: 0;
@@ -159,7 +158,7 @@ label {
         font-size: 1rem;
         font-weight: bold;
         font-family: var(--font-family-captions);
-        padding: 0.5rem 2.5rem 0.5rem 1rem;
+        padding: 0.5rem 1.5rem 0.5rem 0.5rem;
         margin-left: 0.75rem;
         
         option {

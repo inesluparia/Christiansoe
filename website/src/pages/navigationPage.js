@@ -12,7 +12,7 @@ function NavigationPage(props) {
                     <a href="/map" data-navigo>Kort over øen</a>
                 </li>
                 <li>
-                    <a href="/routes" data-navigo>Stier</a>
+                    <a href="/routes" data-navigo>Ruter</a>
                 </li>
                 <li>
                     <a href="/points-of-interest" data-navigo>Interessepunkter</a>
@@ -22,9 +22,6 @@ function NavigationPage(props) {
                 </li>
                 <li>
                     <a href="/plants" data-navigo>Planter</a>
-                </li>
-                <li>
-                    <a href="/routes" data-navigo>Ruter</a>
                 </li>
             </ul>
             ${props ? `
