@@ -52,6 +52,19 @@ export function getRouteFromCoordinatesAsync(...coordinates) {
         });
 }
 
+export function getRouteFromCoordinates(coordinates) {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinates.join(";")}`;
+    let queryParams = `?steps=true&geometries=geojson&walking_speed=1.1&access_token=${mapboxgl.accessToken}`;
+
+    return fetch(url + queryParams)
+        .then((response) => response.json())
+        .then((route) => route.routes[0].geometry.coordinates)
+        .then((coordinates) => {
+            return coordinates;
+        });
+}
+
+
 /**
  * Draws a route on the map, by using the coordinates provided.
  *
